@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".register"
+    android:background="@color/light_grey"
+    android:orientation="vertical"
+    android:layoutDirection="ltr">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <TextView
+
+        android:layout_width="270dp"
+        android:layout_height="88dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_register"
+        android:fontFamily="@font/secular_one"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:text="הרשמה"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="50dp" />
+
+    <TextView
+        android:layout_width="372dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/secular_one"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:text="מלא את פרטיך המלאים בטופס "
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="textPostalAddress"
+            android:hint="שם מלא"
+            android:fontFamily="@font/secular_one"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:id="@+id/Full_name"
+            android:drawableLeft="@drawable/ic_account"/>
+
+        <TextView
+            android:id="@+id/User_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:gravity="right"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="שם מלא:"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="textEmailAddress"
+            android:hint="אימייל"
+            android:fontFamily="@font/secular_one"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:drawableLeft="@drawable/ic_email"
+            android:id="@+id/email"/>
+        <TextView
+            android:id="@+id/name5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="איימיל:"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:textSize="20dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textAllCaps="true"
+            android:layout_marginLeft="45dp"
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+    <EditText
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="textPassword"
+        android:hint="סיסמא"
+        android:fontFamily="@font/secular_one"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/ic_lock"
+        android:textAlignment="center"
+        android:id="@+id/pass"
+        android:maxLength="15"/>
+        <TextView
+            android:id="@+id/name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+          android:layout_marginLeft="45dp"
+            android:text="סיסמא:"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:textSize="20dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textAllCaps="true"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+        <EditText
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="phone"
+            android:hint="טלפון"
+            android:fontFamily="@font/secular_one"
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_phone"
+            android:textAlignment="center"
+            android:id="@+id/phone"
+            android:maxLength="10"/>
+
+        <TextView
+            android:id="@+id/name3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="טלפון:"
+            android:layout_marginLeft="55dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:textSize="20dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textAllCaps="true"
+            android:maxLength="10"
+            />
+    </LinearLayout>
+
+
+        <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+
+
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cityy"
+                android:textColor="@color/white"
+                android:fontFamily="@font/secular_one"
+                android:textSize="10dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2"/>
+
+
+        <TextView
+            android:id="@+id/cityTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="עיר:"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:textSize="20dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textAllCaps="true"
+            android:layout_marginLeft="25dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp">
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/streett"
+            android:textColor="@color/white"
+            android:fontFamily="@font/secular_one"
+            android:textSize="10dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"/>
+        <TextView
+            android:id="@+id/StreetTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="רחוב:"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:textSize="20dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:textAllCaps="true"
+            android:layout_marginLeft="25dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layoutDirection="ltr">
+        <EditText
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="textPostalAddress"
+            android:hint="מספר בית"
+            android:fontFamily="@font/secular_one"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:id="@+id/num_address"
+            android:drawableLeft="@drawable/ic_city"/>
+
+        <TextView
+            android:id="@+id/name4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/secular_one"
+            android:gravity="right"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            android:text="מספר בית:"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+
+            />
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="281dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <RadioGroup
+                android:layout_width="175dp"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="167dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/secular_one"
+                    android:text="יושב ראש וועד"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:id="@+id/btnn1"/>
+
+                <RadioButton
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/secular_one"
+                    android:text="חבר וועד"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:id="@+id/btnn2"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/secular_one"
+                    android:text="דייר רגיל"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:checked="true"
+                    android:id="@+id/btnn3"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/name6"
+                android:layout_width="wrap_content"
+                android:layout_height="91dp"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/secular_one"
+                android:gravity="right"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2"
+                android:text="סוג דייר:"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+
+                />
+
+        </LinearLayout>
+
+
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/submit_Register"
+        android:layout_width="330dp"
+        app:cornerRadius="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/secular_one"
+        android:text="רישום"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:onClick="submit_register"/>
+    <Button
+        android:id="@+id/back"
+        android:layout_width="330dp"
+        app:cornerRadius="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/secular_one"
+        android:text="חזרה"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:onClick="back"
+        />
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

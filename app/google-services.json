@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "563015450253",
+    "project_id": "vaadbaitv3",
+    "storage_bucket": "vaadbaitv3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563015450253:android:1e442d0eaf7fdce56f2cc4",
+        "android_client_info": {
+          "package_name": "com.example.vaadbaitv3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563015450253-77t6me1e0h6hdlp1snje6l9lrhsfhv04.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9j7EG7CtsxszVLkF4EtKSGpHxnClMKIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563015450253-77t6me1e0h6hdlp1snje6l9lrhsfhv04.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--- first_menu-->
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/home_page"
+            android:icon="@drawable/home_vector"
+            android:title="מסך ראשי"/>
+                <item android:title="כספי הבניין">
+        <menu>
+            <item android:id="@+id/wallet_building"
+                android:icon="@drawable/wallet"
+                android:title="קופת הבניין"/>
+            <item android:id="@+id/bills_building"
+                android:icon="@drawable/bills"
+                android:title="חשבוניות"/>
+        </menu>
+    </item>
+            </group>
+   <!--- sec_menu-->
+
+    <item android:title="דיונים כללים">
+        <menu>
+            <item android:id="@+id/votes"
+                android:icon="@drawable/vote"
+                android:title="הצבעות"/>
+            <item android:id="@+id/chat_building"
+                android:icon="@drawable/chat"
+                android:title="צ'אט בניין"/>
+            <item android:id="@+id/reports"
+                android:icon="@drawable/report"
+                android:title="דיווח תקלות"/>
+        </menu>
+    </item>
+    <group android:checkableBehavior="single">
+
+
+                 <item android:id="@+id/settings"
+                     android:icon="@drawable/settings"
+                     android:title="הגדרות"/>
+                    <item android:id="@+id/disconnect"
+                             android:icon="@drawable/disconnect"
+                             android:title="התנתקות"/>
+             </group>
+</menu>

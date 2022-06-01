@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login"
+    android:background="@color/light_grey"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/secular_one"
+        android:text="ברוך הבא לאפלקצית הבניין"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_entry_logo"
+        android:layout_gravity="center" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="התחברות:"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:textSize="30dp"
+        android:fontFamily="@font/secular_one"
+        />
+
+    <EditText
+        android:id="@+id/email_login"
+        android:layout_width="241dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:drawableLeft="@drawable/ic_account"
+        android:fontFamily="@font/secular_one"
+        android:hint="אימייל "
+        android:inputType="textEmailAddress"
+        android:lineSpacingExtra="8sp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
+
+    <EditText
+        android:id="@+id/password_login"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_lock"
+        android:fontFamily="@font/secular_one"
+        android:hint="סיסמא"
+        android:inputType="textPassword"
+        android:maxLength="15"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="זכור אותי"
+        android:fontFamily="@font/secular_one"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:id="@+id/switch_button"
+        />
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="כניסה"
+        android:fontFamily="@font/secular_one"
+        android:backgroundTint="@color/light_black"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        android:id="@+id/login_button"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="שכחתי סיסמא"
+        android:textColor="@color/white"
+        android:fontFamily="@font/secular_one"
+        android:backgroundTint="@color/light_black"
+        android:layout_gravity="center"
+        app:cornerRadius="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="עוד לא נרשמת? הירשם כאן"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:fontFamily="@font/secular_one"
+        android:textSize="25dp"
+        app:cornerRadius="20dp"/>
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/light_black"
+        android:drawableTint="@color/black"
+        android:text="רישום"
+        android:textDirection="rtl"
+        android:textColor="@color/white"
+        android:fontFamily="@font/secular_one"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        android:onClick="pageregister"/>
+</LinearLayout>
