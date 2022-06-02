@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Vaadbaitv3">
         <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
             android:name=".reports"
             android:exported="false" />
         <activity

@@ -21,7 +21,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class reports extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class Chat extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
     String storage;
@@ -61,7 +61,7 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Picasso.with(reports.this).load(uri).into(profile);
+                    Picasso.with(Chat.this).load(uri).into(profile);
                 }
             });
         }
@@ -79,37 +79,37 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
         if (id == R.id.settings) {
-            Intent intent = new Intent(reports.this, Settings.class);
+            Intent intent = new Intent(Chat.this, Settings.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.home_page){
-            Intent intent = new Intent(reports.this, Settings.class);
+            Intent intent = new Intent(Chat.this, HomePage.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(reports.this, login.class);
+            Intent intent = new Intent(Chat.this, login.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.bills_building){
-            Intent intent = new Intent(reports.this, bills.class);
+            Intent intent = new Intent(Chat.this, bills.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.votes){
-            Intent intent = new Intent(reports.this, votes.class);
+            Intent intent = new Intent(Chat.this, votes.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.reports){
-            Intent intent = new Intent(reports.this, reports.class);
+            Intent intent = new Intent(Chat.this, reports.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.chat_building){
-            Intent intent = new Intent(reports.this, Chat.class);
+            Intent intent = new Intent(Chat.this, Chat.class);
             startActivity(intent);
             finish();
         }
@@ -126,4 +126,5 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
 }
