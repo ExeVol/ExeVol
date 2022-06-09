@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Vaadbaitv3">
         <activity
+            android:name=".VaadChat"
+            android:exported="false" />
+        <activity
+            android:name=".MainChat"
+            android:exported="false" />
+        <activity
             android:name=".walletpage"
             android:exported="false" />
         <activity

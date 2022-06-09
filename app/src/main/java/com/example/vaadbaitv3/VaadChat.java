@@ -21,7 +21,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class Chat extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class VaadChat extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
     String storage;
@@ -38,7 +38,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_vaad_chat);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,7 +61,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Picasso.with(Chat.this).load(uri).into(profile);
+                    Picasso.with(VaadChat.this).load(uri).into(profile);
                 }
             });
         }
@@ -72,49 +72,44 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
 
     @Override
     public void onClick(View view) {
-        if(btn_vaad==view){
 
-        }
-        if(btn_citizen==view){
-
-        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
         if (id == R.id.settings) {
-            Intent intent = new Intent(Chat.this, Settings.class);
+            Intent intent = new Intent(VaadChat.this, Settings.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.home_page){
-            Intent intent = new Intent(Chat.this, HomePage.class);
+            Intent intent = new Intent(VaadChat.this, HomePage.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(Chat.this, login.class);
+            Intent intent = new Intent(VaadChat.this, login.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.bills_building){
-            Intent intent = new Intent(Chat.this, bills.class);
+            Intent intent = new Intent(VaadChat.this, bills.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.votes){
-            Intent intent = new Intent(Chat.this, votes.class);
+            Intent intent = new Intent(VaadChat.this, votes.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.reports){
-            Intent intent = new Intent(Chat.this, reports.class);
+            Intent intent = new Intent(VaadChat.this, reports.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.chat_building){
-            Intent intent = new Intent(Chat.this, Chat.class);
+            Intent intent = new Intent(VaadChat.this, Chat.class);
             startActivity(intent);
             finish();
         }
