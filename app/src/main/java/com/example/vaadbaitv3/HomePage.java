@@ -90,7 +90,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             startActivity(intent);
         }
         if(bt3==view){
-            Intent intent = new Intent(HomePage.this, Settings.class);
+            Intent intent = new Intent(HomePage.this, Chat.class);
             startActivity(intent);
         }
     }

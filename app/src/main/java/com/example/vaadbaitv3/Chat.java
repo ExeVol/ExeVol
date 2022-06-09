@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     ImageView profile;
     Uri uri;
     String picname,email;
-
+    ImageButton btn_vaad,btn_citizen;
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
@@ -39,6 +40,10 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        btn_vaad=findViewById(R.id.btn_vaad);
+        btn_citizen=findViewById(R.id.btn_citizen);
+        btn_vaad.setOnClickListener(this);
+        btn_citizen.setOnClickListener(this);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,10 +78,14 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     @Override
     public void onClick(View view) {
         if(btn_vaad==view){
-
+            Intent intent = new Intent(Chat.this, VaadChat.class );
+            startActivity(intent);
+            finish();
         }
         if(btn_citizen==view){
-
+            Intent intent = new Intent(Chat.this,MainChat.class );
+            startActivity(intent);
+            finish();
         }
     }
 

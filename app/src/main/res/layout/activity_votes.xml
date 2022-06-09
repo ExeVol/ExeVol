@@ -16,6 +16,14 @@
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="הצבעות"
+            android:textSize="50dp"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:fontFamily="@font/secular_one"/>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"

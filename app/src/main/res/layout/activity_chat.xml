@@ -22,10 +22,12 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="200dp"
+            android:id="@+id/btn_citizen"
             android:background="@drawable/chatbuilding_v1"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="200dp"
+            android:id="@+id/btn_vaad"
             android:background="@drawable/chatbuilding_v2"/>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
