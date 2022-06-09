@@ -5,19 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Settings"
-    android:orientation="horizontal"
-    android:background="@color/light_grey">
+    android:id="@+id/drawerLayout">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/light_grey"
         android:orientation="vertical">
-
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-                />
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_width="450dp"
+            android:layout_height="200dp"
+            android:src="@drawable/settingsheader"
+            android:layout_gravity="center"/>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
@@ -26,32 +29,4 @@
         android:layout_gravity="end"
         android:layoutDirection="rtl"
         android:gravity="right" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/light_grey"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="הגדרות"
-            android:textColor="@color/black"
-            android:textSize="40dp"
-            android:fontFamily="@font/secular_one"
-            android:layout_gravity="center"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="חזור"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/black"
-            android:fontFamily="@font/secular_one"
-            android:textSize="20dp"
-            android:onClick="backbutton"
-            />
-    </LinearLayout>
-
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

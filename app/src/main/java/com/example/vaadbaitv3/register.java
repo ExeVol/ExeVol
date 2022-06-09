@@ -21,8 +21,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,8 +45,9 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     ProgressDialog p;
-    DatabaseReference myref;
-    int type_guest=3;
+    DatabaseReference myref,myref1;
+    boolean flag;
+    int type_guest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +62,10 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
         btnn1=findViewById(R.id.btnn1);
         btnn2=findViewById(R.id.btnn2);
         btnn3=findViewById(R.id.btnn3);
-
+        btnn3.setOnClickListener(this);
+        btnn2.setOnClickListener(this);
+        btnn1.setOnClickListener(this);
         readCityData();
-
         ArrayAdapter <String>newadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,samplee);
         cityy.setAdapter(newadapter);
         cityy.setOnItemSelectedListener(this);
@@ -70,6 +75,8 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
         firebaseDatabase=FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         myref=firebaseDatabase.getReference("Users");
+        myref1=firebaseDatabase.getReference("Users");
+
     }
 
 
@@ -141,7 +148,32 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
         // if (isVaildate()) {
 
+        try {
+            myref1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try {
+                        for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
+                            if (singleSnapshot.child("city2").getValue().toString().equals(cityy.getSelectedItem().toString()) &&
+                                    singleSnapshot.child("street2").getValue().toString().equals(streett.getSelectedItem().toString()) &&
+                                    singleSnapshot.child("num_address2").getValue().toString().equals(num_address.getText().toString())) {
+                                if (singleSnapshot.child("type_guest").getValue().toString().equals(type_guest)) {
+                                    flag=false;
+                                    throw new Exception("קיים בכתובת זו מנהל וועד");
 
+                                }
+                            }
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(register.this,e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         p = new ProgressDialog(this);
         p.setMessage("בתהליך רישום....");
         p.show();
@@ -149,8 +181,8 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-
-                    try {
+                   try {
+                        if (!flag){
                         firebaseDatabase.getReference("Users").push();
                         myref = firebaseDatabase.getReference("Users").push();
                         DefaultUser u = new DefaultUser(Full_name.getText().toString()
@@ -161,6 +193,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                                 , streett.getSelectedItem().toString()
                                 , num_address.getText().toString(),"0", type_guest, myref.getKey());
                         myref.setValue(u);
+                        }
                     } catch (Exception e) {
                         Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -203,15 +236,29 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
         }
         return true;
         }*/
+        } catch (Exception e){
+            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onClick(View view) {
+         if(btnn1==view){
+            type_guest=1;
+        }
+        else if(btnn2==view){
+            type_guest=2;
+        }
+        else if(btnn3==view){
+            type_guest=3;
+        }
         if (view==submit_register){
             createUser();
+            }
         }
+
      }
-    }
+
 
 
 

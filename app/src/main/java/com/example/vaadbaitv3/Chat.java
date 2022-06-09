@@ -38,7 +38,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_chat);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

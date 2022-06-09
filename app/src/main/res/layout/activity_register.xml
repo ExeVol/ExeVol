@@ -321,7 +321,8 @@
 
             <RadioGroup
                 android:layout_width="175dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/group_dair">
 
                 <RadioButton
                     android:layout_width="167dp"
@@ -330,7 +331,7 @@
                     android:text="יושב ראש וועד"
                     android:textColor="@color/white"
                     android:textSize="20dp"
-                    android:id="@+id/btnn1"/>
+                    android:id="@+id/btnn3"/>
 
                 <RadioButton
                     android:layout_width="125dp"
@@ -349,7 +350,7 @@
                     android:textColor="@color/white"
                     android:textSize="20dp"
                     android:checked="true"
-                    android:id="@+id/btnn3"/>
+                    android:id="@+id/btnn1"/>
             </RadioGroup>
 
             <TextView

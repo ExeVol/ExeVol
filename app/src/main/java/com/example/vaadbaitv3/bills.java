@@ -38,7 +38,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_bills);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,6 +105,11 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         }
         else if(id==R.id.reports){
             Intent intent = new Intent(bills.this, reports.class);
+            startActivity(intent);
+            finish();
+        }
+        else if(id==R.id.wallet_building){
+            Intent intent = new Intent(bills.this, walletpage.class);
             startActivity(intent);
             finish();
         }

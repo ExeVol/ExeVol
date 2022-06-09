@@ -15,33 +15,46 @@
             layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="1000dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:fontFamily="@font/secular_one"
-            android:text="דף ראשי"
-            android:textColor="@color/black"
-            android:textSize="40dp"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:src="@drawable/homepagemain"
+            />
+
+        <ImageView
+            android:id="@+id/imagebutton1"
+            android:layout_width="230dp"
+            android:layout_height="113dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="center"
-            android:gravity="right"
-            android:fontFamily="@font/secular_one"
-            android:text="עדכונים חדשים:"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:background="@drawable/reportsbutton"
+
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/imagebutton2"
+            android:layout_width="230dp"
+            android:layout_height="113dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="center"
-            android:gravity="right"
-            android:fontFamily="@font/secular_one"
-            android:text="דיירים מחוברים:"
-            android:textColor="@color/black"
-            android:textSize="20dp"/>
+
+            android:background="@drawable/walletbt"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:id="@+id/imagebutton3"
+            android:layout_width="230dp"
+            android:layout_height="113dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+
+            android:background="@drawable/settingsbt"
+            android:scaleType="fitXY" />
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"

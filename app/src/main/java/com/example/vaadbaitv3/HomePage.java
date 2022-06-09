@@ -9,11 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,13 +23,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, OnFailureListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
     String storage;
     ImageView profile;
     Uri uri;
     String picname,email;
+    ImageView bt1,bt2,bt3;
 
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
@@ -39,6 +42,12 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+        bt1=findViewById(R.id.imagebutton1);
+        bt2=findViewById(R.id.imagebutton2);
+        bt3=findViewById(R.id.imagebutton3);
+        bt1.setOnClickListener(this);
+        bt2.setOnClickListener(this);
+        bt3.setOnClickListener(this);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,7 +81,18 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-
+        if(bt1==view){
+            Intent intent = new Intent(HomePage.this, reports.class);
+            startActivity(intent);
+        }
+        if(bt2==view){
+            Intent intent = new Intent(HomePage.this,walletpage.class);
+            startActivity(intent);
+        }
+        if(bt3==view){
+            Intent intent = new Intent(HomePage.this, Settings.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -108,6 +128,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             startActivity(intent);
             finish();
         }
+        else if(id==R.id.wallet_building){
+            Intent intent = new Intent(HomePage.this, walletpage.class);
+            startActivity(intent);
+            finish();
+        }
         return false;
     }
     @Override
@@ -120,5 +145,9 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void onFailure(@NonNull Exception e) {
+        Toast.makeText(HomePage.this, e.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

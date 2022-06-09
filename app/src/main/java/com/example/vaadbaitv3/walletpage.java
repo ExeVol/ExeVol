@@ -21,7 +21,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class Settings extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class walletpage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
     String storage;
@@ -38,7 +38,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_wallet);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,7 +61,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Picasso.with(Settings.this).load(uri).into(profile);
+                    Picasso.with(walletpage.this).load(uri).into(profile);
                 }
             });
         }
@@ -79,42 +79,42 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
         if (id == R.id.settings) {
-            Intent intent = new Intent(Settings.this, Settings.class);
+            Intent intent = new Intent(walletpage.this, Settings.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.home_page){
-            Intent intent = new Intent(Settings.this, HomePage.class);
+            Intent intent = new Intent(walletpage.this, HomePage.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(Settings.this, login.class);
+            Intent intent = new Intent(walletpage.this, login.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.bills_building){
-            Intent intent = new Intent(Settings.this, bills.class);
+            Intent intent = new Intent(walletpage.this, bills.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.votes){
-            Intent intent = new Intent(Settings.this, votes.class);
+            Intent intent = new Intent(walletpage.this, votes.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.reports){
-            Intent intent = new Intent(Settings.this, reports.class);
+            Intent intent = new Intent(walletpage.this, reports.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.chat_building){
-            Intent intent = new Intent(Settings.this, Chat.class);
+            Intent intent = new Intent(walletpage.this, Chat.class);
             startActivity(intent);
             finish();
         }
         else if(id==R.id.wallet_building){
-            Intent intent = new Intent(Settings.this, walletpage.class);
+            Intent intent = new Intent(walletpage.this, walletpage.class);
             startActivity(intent);
             finish();
         }

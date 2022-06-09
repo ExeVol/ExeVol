@@ -6,33 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".login"
     android:background="@color/light_grey"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:fontFamily="@font/secular_one"
-        android:text="ברוך הבא לאפלקצית הבניין"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_entry_logo"
-        android:layout_gravity="center" />
+        android:layout_width="530dp"
+        android:layout_height="192dp"
+        android:layout_gravity="center"
+        android:src="@drawable/headerlogin" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="התחברות:"
+        android:text="להתחברות:"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:textSize="30dp"
+        android:textStyle="bold"
         android:fontFamily="@font/secular_one"
         />
 
@@ -75,6 +65,7 @@
         android:text="זכור אותי"
         android:fontFamily="@font/secular_one"
         android:textColor="@color/black"
+        android:textStyle="bold"
         android:layout_gravity="center"
         android:id="@+id/switch_button"
         />

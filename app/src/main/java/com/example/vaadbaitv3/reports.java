@@ -38,7 +38,7 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_reports);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,7 +84,7 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
             finish();
         }
         else if(id==R.id.home_page){
-            Intent intent = new Intent(reports.this, Settings.class);
+            Intent intent = new Intent(reports.this, HomePage.class);
             startActivity(intent);
             finish();
         }
@@ -110,6 +110,11 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
         }
         else if(id==R.id.chat_building){
             Intent intent = new Intent(reports.this, Chat.class);
+            startActivity(intent);
+            finish();
+        }
+        else if(id==R.id.wallet_building){
+            Intent intent = new Intent(reports.this, walletpage.class);
             startActivity(intent);
             finish();
         }
