@@ -3,12 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3234375" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/arrow.xml" value="0.3828125" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/bills.xml" value="0.3828125" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/chat.xml" value="0.3828125" />
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/disconnect.xml" value="0.3234375" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/ic_account.xml" value="0.30648148148148147" />
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/ic_city.xml" value="0.3234375" />
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3234375" />
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/ic_lock.xml" value="0.3234375" />
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/drawable/round_button.xml" value="0.3234375" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/layout/activity_bills.xml" value="0.33" />
-        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/layout/activity_chat.xml" value="0.25" />
+        <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/layout/activity_chat.xml" value="0.33" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/layout/activity_home_page.xml" value="0.33" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/Liad Reuven/AndroidStudioProjects/vaadbaitv3/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />

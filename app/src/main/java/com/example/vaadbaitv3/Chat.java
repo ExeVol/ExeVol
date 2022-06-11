@@ -122,6 +122,11 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
             startActivity(intent);
             finish();
         }
+        else if(id==R.id.wallet_building){
+            Intent intent = new Intent(Chat.this, walletpage.class);
+            startActivity(intent);
+            finish();
+        }
         else if(id==R.id.chat_building){
             Intent intent = new Intent(Chat.this, Chat.class);
             startActivity(intent);

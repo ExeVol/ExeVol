@@ -113,6 +113,11 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
             startActivity(intent);
             finish();
         }
+        else if(id==R.id.chat_building){
+            Intent intent = new Intent(votes.this, Chat.class);
+            startActivity(intent);
+            finish();
+        }
         return false;
     }
     @Override

@@ -1,5 +1,6 @@
 package com.example.vaadbaitv3;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,17 +10,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
 
 public class bills extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -28,7 +35,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     ImageView profile;
     Uri uri;
     String picname,email;
-
+    ImageView upload;
+    Uri imageuri = null;
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
@@ -68,7 +76,74 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+        /*-----------image-upload-----------------*/
+        upload = findViewById(R.id.uploadpdf);
+
+        // After Clicking on this we will be
+        // redirected to choose pdf
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                // We will be redirected to choose pdf
+                galleryIntent.setType("application/pdf");
+                startActivityForResult(galleryIntent, 1);
+            }
+        });
     }
+    ProgressDialog dialog;
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+
+            // Here we are initialising the progress dialog box
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("Uploading");
+
+            // this will show message uploading
+            // while pdf is uploading
+            dialog.show();
+            imageuri = data.getData();
+            final String timestamp = "" + System.currentTimeMillis();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            final String messagePushID = timestamp;
+            Toast.makeText(bills.this, imageuri.toString(), Toast.LENGTH_SHORT).show();
+
+            // Here we are uploading the pdf in firebase storage with the name of current time
+            final StorageReference filepath = storageReference.child(messagePushID + "." + "pdf");
+            Toast.makeText(bills.this, filepath.getName(), Toast.LENGTH_SHORT).show();
+            filepath.putFile(imageuri).continueWithTask(new Continuation() {
+                @Override
+                public Object then(@NonNull Task task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return filepath.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        // After uploading is done it progress
+                        // dialog box will be dismissed
+                        dialog.dismiss();
+                        Uri uri = task.getResult();
+                        String myurl;
+                        myurl = uri.toString();
+                        Toast.makeText(bills.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        dialog.dismiss();
+                        Toast.makeText(bills.this, "UploadedFailed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });}}
+
+
 
     @Override
     public void onClick(View view) {
@@ -115,6 +190,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         }
         return false;
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -128,3 +204,15 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
