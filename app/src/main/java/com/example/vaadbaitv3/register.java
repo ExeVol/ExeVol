@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,97 +37,98 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class register extends AppCompatActivity implements   AdapterView.OnItemSelectedListener , View.OnClickListener {
-    EditText Full_name,email,pass,passcheck,phone,num_address;
-    Spinner cityy,streett;
+    EditText Full_name, email, pass, passcheck, phone, num_address;
+    Spinner cityy, streett;
     Button submit_register;
-    RadioButton btnn1,btnn2,btnn3;
-    ArrayList <String> samplee=new ArrayList<>();
-    ArrayList <String> sampleev2=new ArrayList<>();
+    RadioButton btnn1, btnn2, btnn3;
+    ArrayList<String> samplee = new ArrayList<>();
+    ArrayList<String> sampleev2 = new ArrayList<>();
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     ProgressDialog p;
-    DatabaseReference myref,myref1;
+    DatabaseReference myref, myref1;
     boolean flag;
     int type_guest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        phone=findViewById(R.id.phone);
-        pass=findViewById(R.id.pass);
-        email=findViewById(R.id.email);
-        cityy=findViewById(R.id.cityy);
-        Full_name=findViewById(R.id.Full_name);
-        streett=findViewById(R.id.streett);
-        num_address=findViewById(R.id.num_address);
-        btnn1=findViewById(R.id.btnn1);
-        btnn2=findViewById(R.id.btnn2);
-        btnn3=findViewById(R.id.btnn3);
+        phone = findViewById(R.id.phone);
+        pass = findViewById(R.id.pass);
+        email = findViewById(R.id.email);
+        cityy = findViewById(R.id.cityy);
+        Full_name = findViewById(R.id.Full_name);
+        streett = findViewById(R.id.streett);
+        num_address = findViewById(R.id.num_address);
+        btnn1 = findViewById(R.id.btnn1);
+        btnn2 = findViewById(R.id.btnn2);
+        btnn3 = findViewById(R.id.btnn3);
         btnn3.setOnClickListener(this);
         btnn2.setOnClickListener(this);
         btnn1.setOnClickListener(this);
         readCityData();
-        ArrayAdapter <String>newadapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,samplee);
+        ArrayAdapter<String> newadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, samplee);
         cityy.setAdapter(newadapter);
         cityy.setOnItemSelectedListener(this);
         streett.setOnItemSelectedListener(this);
-        submit_register=findViewById(R.id.submit_Register);
+        submit_register = findViewById(R.id.submit_Register);
         submit_register.setOnClickListener(this);
-        firebaseDatabase=FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        myref=firebaseDatabase.getReference("Users");
-        myref1=firebaseDatabase.getReference("Users");
+        myref = firebaseDatabase.getReference("Users");
+        myref1 = firebaseDatabase.getReference("Users");
 
     }
 
 
+    private List<CityData> CityDataread = new ArrayList<>();
 
-
-    private List<CityData> CityDataread=new ArrayList<>();
     private void readCityData() {
-        InputStream is  =getResources().openRawResource(R.raw.data);
-        BufferedReader reader= new BufferedReader(
-                new InputStreamReader(is,Charset.forName("windows-1255"))
+        InputStream is = getResources().openRawResource(R.raw.data);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(is, Charset.forName("windows-1255"))
         );
-        String line="";
-        try{
+        String line = "";
+        try {
             reader.readLine();
-            while ((line=reader.readLine())!=null){
-                Log.d("register","Line:"+line);
-                String [] tokens =line .split(",");
-                CityData sample= new CityData();
+            while ((line = reader.readLine()) != null) {
+                Log.d("register", "Line:" + line);
+                String[] tokens = line.split(",");
+                CityData sample = new CityData();
                 sample.setCity_Name(tokens[1].trim());
                 sample.setId_Street(tokens[2]);
                 sample.setStreet_name(tokens[3]);
                 CityDataread.add(sample);
                 if (!samplee.contains(tokens[1]))
                     samplee.add(tokens[1]);
-                Log.d("register","Just created:"+sample);
+                Log.d("register", "Just created:" + sample);
 
             }
         } catch (IOException e) {
-            Log.wtf("register","Error while reading data file"+line,e);
+            Log.wtf("register", "Error while reading data file" + line, e);
             e.printStackTrace();
-        }}
-    private void showSteerts(String city){
+        }
+    }
 
-        sampleev2=new ArrayList<>();
-        for (int i=0;i<CityDataread.size()&&CityDataread.get(i).getCity_Name().compareTo(city.trim())<=0;i++){
-            if (CityDataread.get(i).getCity_Name().equals(city.trim())){
+    private void showSteerts(String city) {
+
+        sampleev2 = new ArrayList<>();
+        for (int i = 0; i < CityDataread.size() && CityDataread.get(i).getCity_Name().compareTo(city.trim()) <= 0; i++) {
+            if (CityDataread.get(i).getCity_Name().equals(city.trim())) {
 
                 sampleev2.add(CityDataread.get(i).getStreet_name());
             }
 
         }
-        ArrayAdapter <String> newadapterv2=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,sampleev2);
+        ArrayAdapter<String> newadapterv2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sampleev2);
         streett.setAdapter(newadapterv2);
     }
 
 
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (adapterView==cityy) {
+        if (adapterView == cityy) {
             String item = samplee.get(i);
 
             if (i != 0)
@@ -141,7 +143,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
     public void back(View view) {
 
-        startActivity(new Intent(register.this , login.class));
+        startActivity(new Intent(register.this, login.class));
     }
 
     public void createUser() {
@@ -158,14 +160,14 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                                     singleSnapshot.child("street2").getValue().toString().equals(streett.getSelectedItem().toString()) &&
                                     singleSnapshot.child("num_address2").getValue().toString().equals(num_address.getText().toString())) {
                                 if (singleSnapshot.child("type_guest").getValue().toString().equals(type_guest)) {
-                                    flag=false;
+                                    flag = false;
                                     throw new Exception("קיים בכתובת זו מנהל וועד");
 
                                 }
                             }
                         }
-                    }catch (Exception e){
-                        Toast.makeText(register.this,e.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -174,90 +176,90 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
                 }
             });
-        p = new ProgressDialog(this);
-        p.setMessage("בתהליך רישום....");
-        p.show();
-        firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                   try {
-                        if (!flag){
-                        firebaseDatabase.getReference("Users").push();
-                        myref = firebaseDatabase.getReference("Users").push();
-                        DefaultUser u = new DefaultUser(Full_name.getText().toString()
-                                , email.getText().toString()
-                                , pass.getText().toString()
-                                , phone.getText().toString()
-                                , cityy.getSelectedItem().toString()
-                                , streett.getSelectedItem().toString()
-                                , num_address.getText().toString(),"0", type_guest, myref.getKey());
-                        myref.setValue(u);
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                    p.dismiss();
-                    Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(register.this, login.class));
-                }
-            }
-        }
-        ).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+            p = new ProgressDialog(this);
+            p.setMessage("בתהליך רישום....");
+            p.show();
+            firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                                                                                         @Override
+                                                                                                                                         public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                                                                                             if (task.isSuccessful()) {
+                                                                                                                                                 try {
+                                                                                                                                                     if (!flag) {
+                                                                                                                                                         firebaseDatabase.getReference("Users").push();
+                                                                                                                                                         myref = firebaseDatabase.getReference("Users").push();
+                                                                                                                                                         DefaultUser u = new DefaultUser(Full_name.getText().toString()
+                                                                                                                                                                 , email.getText().toString()
+                                                                                                                                                                 , pass.getText().toString()
+                                                                                                                                                                 , phone.getText().toString()
+                                                                                                                                                                 , cityy.getSelectedItem().toString()
+                                                                                                                                                                 , streett.getSelectedItem().toString()
+                                                                                                                                                                 , num_address.getText().toString(), "0", type_guest, myref.getKey());
+                                                                                                                                                         myref.setValue(u);
+                                                                                                                                                     }
+                                                                                                                                                 } catch (Exception e) {
+                                                                                                                                                     Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                                                                                                 }
+                                                                                                                                                 p.dismiss();
+                                                                                                                                                 Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
+                                                                                                                                                 startActivity(new Intent(register.this, login.class));
+                                                                                                                                             }
+                                                                                                                                         }
+                                                                                                                                     }
+            ).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                     Toast.makeText(register.this, "הרשמה לא  בוצעה בהצלחה", Toast.LENGTH_LONG).show();
-                    Toast.makeText(register.this,e.getMessage(),Toast.LENGTH_LONG).show();
-                 }
-        });
+                    Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
 
-    /*public boolean isVaildate(){
-        if(!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()){
-            email.setError("מייל שגוי");
-            email.setFocusable(true);
-            return false;
-        }
-        else if(pass.getText().toString().length()<6){
-            pass.setError("הסיסמא צריכה להיות לפחות 6 תווים");
-            pass.setFocusable(true);
-            return  false;
-        }
-        else if(pass.getText().toString().length()>32){
-            pass.setError("על הסיסמא להיות קצרה מ32 תווים");
-            pass.setFocusable(true);
-            return false;
-        }
-
-        else if(!pass.getText().toString().equals(passcheck.getText().toString())){
-            passcheck.setError("על הסיסמא להיות תואמת ");
-            passcheck.setFocusable(true);
-            passcheck.setFocusable(true);
-            return false;
-        }
-        return true;
-        }*/
-        } catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onClick(View view) {
-         if(btnn1==view){
-            type_guest=1;
+        if (btnn1 == view) {
+            type_guest = 1;
+        } else if (btnn2 == view) {
+            type_guest = 2;
+        } else if (btnn3 == view) {
+            type_guest = 3;
         }
-        else if(btnn2==view){
-            type_guest=2;
-        }
-        else if(btnn3==view){
-            type_guest=3;
-        }
-        if (view==submit_register){
-            createUser();
-            }
-        }
+        if (view == submit_register) {
+            if (pass.getText().toString().length() < 6) {
+                pass.setError("הסיסמא צריכה להיות לפחות 6 תווים");
+                pass.setFocusable(true);
+            } else if (num_address == null) {
+                num_address.setError("חובה להקליד מספר בניין");
+                pass.setFocusable(true);
+            } else if (Patterns.EMAIL_ADDRESS.pattern().contains(" " + "!" + "#" + "$" + "%" + "^" + "&" + "*" + "(" + ")" + "-")) {
+                email.setError("לא ניתן להכניס תווים אלה במייל");
+                email.setFocusable(true);
+            } else if ((Full_name.toString().contains("@") ||
+                    Full_name.toString().contains("!") ||
+                    Full_name.toString().contains("$") ||
+                    Full_name.toString().contains("%") ||
+                    Full_name.toString().contains("^") ||
+                    Full_name.toString().contains("&") ||
+                    Full_name.toString().contains("*") ||
+                    Full_name.toString().contains(")") ||
+                    Full_name.toString().contains("(") ||
+                    Full_name.toString().contains("_") ||
+                    Full_name.toString().contains("-") ||
+                    Full_name.toString().contains("+") ||
+                    Full_name.toString().contains("="))) {
+                email.setError("לא ניתן להכניס תווים אלה במייל");
+                email.setFocusable(true);
+                 }
+        } else {
 
-     }
+            createUser();
+        }
+    }
+                                       }
+
 
 
 

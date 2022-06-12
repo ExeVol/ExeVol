@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,13 +29,15 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
     ImageView profile;
     Uri uri;
     String picname,email;
-
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
+
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
+
+    ImageButton survey_create,show_serveys;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,10 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
         View headerView=  navigationView.inflateHeaderView(R.layout.headerfile);
         profile=headerView.findViewById(R.id.profile_header);
         profile.setOnClickListener(this);
+        survey_create=findViewById(R.id.create_survey);
+        show_serveys=findViewById(R.id.show_surveys);
+        survey_create.setOnClickListener(this);
+        show_serveys.setOnClickListener(this);
         sp = getSharedPreferences("save", 0);
         editor = sp.edit();
         TextView name=headerView.findViewById(R.id.menu_name);
@@ -68,11 +75,27 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+
+
+
+        survey_create.setVisibility(View.INVISIBLE);
+        if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2"))
+            survey_create.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void onClick(View view) {
-
+        if(survey_create==view){
+            Intent intent = new Intent(votes.this, SurveyCreatePage.class);
+            startActivity(intent);
+            finish();
+        }
+        if(show_serveys==view){
+            Intent intent = new Intent(votes.this, ShowSurveyPage.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

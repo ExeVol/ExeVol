@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +30,8 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
     ImageView profile;
     Uri uri;
     String picname,email;
-
+    ImageButton upload_report;
+    ListView report_list;
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
@@ -47,6 +50,9 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
         View headerView=  navigationView.inflateHeaderView(R.layout.headerfile);
         profile=headerView.findViewById(R.id.profile_header);
         profile.setOnClickListener(this);
+        upload_report=findViewById(R.id.upload_reports);
+        upload_report.setOnClickListener(this);
+        report_list=findViewById(R.id.list_of_reports);
         sp = getSharedPreferences("save", 0);
         editor = sp.edit();
         TextView name=headerView.findViewById(R.id.menu_name);
@@ -68,6 +74,7 @@ public class reports extends AppCompatActivity implements View.OnClickListener, 
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+
     }
 
     @Override

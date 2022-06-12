@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     SharedPreferences.Editor editor;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
+    ListView billsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,9 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+        billsList=findViewById(R.id.bills_list);
+
+
         /*-----------image-upload-----------------*/
         upload = findViewById(R.id.uploadpdf);
 
@@ -110,7 +115,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
             dialog.show();
             imageuri = data.getData();
             final String timestamp = "" + System.currentTimeMillis();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference storageReference =  FirebaseStorage.getInstance().getReference("documents/"+sp.getString("email",""));
             final String messagePushID = timestamp;
             Toast.makeText(bills.this, imageuri.toString(), Toast.LENGTH_SHORT).show();
 
@@ -141,7 +146,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                         Toast.makeText(bills.this, "UploadedFailed", Toast.LENGTH_SHORT).show();
                     }
                 }
-            });}}
+            });}
+    }
 
 
 

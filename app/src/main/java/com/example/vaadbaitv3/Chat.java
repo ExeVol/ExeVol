@@ -32,10 +32,14 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     ImageButton btn_vaad,btn_citizen;
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
+
+
+
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,10 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
         TextView name=headerView.findViewById(R.id.menu_name);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
+        navigationView.setNavigationItemSelectedListener(this);
+        drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(drawerToggle);
+
         if(storage.equals("0")){
             profile.setImageResource(R.drawable.profile);
         }
@@ -70,9 +78,14 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
                 }
             });
         }
-        navigationView.setNavigationItemSelectedListener(this);
-        drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(drawerToggle);
+
+
+
+
+
+        btn_vaad.setVisibility(View.INVISIBLE);
+        if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2"))
+           btn_vaad.setVisibility(View.VISIBLE);
     }
 
     @Override

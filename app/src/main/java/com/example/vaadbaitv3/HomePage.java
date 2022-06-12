@@ -133,6 +133,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             startActivity(intent);
             finish();
         }
+        else if(id==R.id.chat_building){
+            Intent intent = new Intent(HomePage.this, Chat.class);
+            startActivity(intent);
+            finish();
+        }
         return false;
     }
     @Override

@@ -31,7 +31,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
-            android:background="@drawable/reportsbutton"
+            android:background="@drawable/building_survey"
 
             android:scaleType="fitXY" />
 

@@ -68,6 +68,7 @@
         android:textStyle="bold"
         android:layout_gravity="center"
         android:id="@+id/switch_button"
+
         />
     <Button
         android:layout_width="130dp"
@@ -88,6 +89,7 @@
         android:backgroundTint="@color/light_black"
         android:layout_gravity="center"
         app:cornerRadius="20dp"
+        android:id="@+id/forgotpass"
         />
     <TextView
         android:layout_width="wrap_content"

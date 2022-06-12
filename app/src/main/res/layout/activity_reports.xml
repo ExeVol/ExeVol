@@ -15,12 +15,31 @@
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <ImageView
-            android:layout_width="250dp"
+            android:layout_width="406dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/reports_header"
-            />
+            android:src="@drawable/reports_header" />
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="124dp"
+            android:layout_gravity="center"
+            android:src="@drawable/report_text" />
+
+        <ImageButton
+            android:layout_width="188dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:background="@drawable/upload_report"
+            android:id="@+id/upload_reports"/>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/list_of_reports">
+
+        </ListView>
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
