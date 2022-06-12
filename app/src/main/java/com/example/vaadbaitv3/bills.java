@@ -45,10 +45,14 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
     ListView billsList;
+    SharedPreferences address;
+    ImageView btn_upload;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills);
+        address = getSharedPreferences("address", 0);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,6 +63,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         profile.setOnClickListener(this);
         sp = getSharedPreferences("save", 0);
         editor = sp.edit();
+        btn_upload=findViewById(R.id.uploadpdf);
+        btn_upload.setOnClickListener(this);
         TextView name=headerView.findViewById(R.id.menu_name);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
@@ -79,7 +85,9 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
         billsList=findViewById(R.id.bills_list);
-
+        btn_upload.setVisibility(View.INVISIBLE);
+        if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2"))
+            btn_upload.setVisibility(View.VISIBLE);
 
         /*-----------image-upload-----------------*/
         upload = findViewById(R.id.uploadpdf);
@@ -115,7 +123,10 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
             dialog.show();
             imageuri = data.getData();
             final String timestamp = "" + System.currentTimeMillis();
-            StorageReference storageReference =  FirebaseStorage.getInstance().getReference("documents/"+sp.getString("email",""));
+            StorageReference storageReference =  FirebaseStorage.getInstance().getReference("documents/"
+                    +address.getString("city2","")
+                    +address.getString("street2","")
+                    + address.getString("num_address2",""));
             final String messagePushID = timestamp;
             Toast.makeText(bills.this, imageuri.toString(), Toast.LENGTH_SHORT).show();
 

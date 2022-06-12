@@ -26,13 +26,13 @@
             android:layout_width="400dp"
             android:layout_height="124dp"
             android:layout_gravity="center"
-            android:src="@drawable/report_text" />
+            android:src="@drawable/chat_button" />
 
         <ImageButton
             android:layout_width="188dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
-            android:background="@drawable/upload_report"
+            android:background="@drawable/chat_header"
             android:id="@+id/upload_reports"/>
         <ListView
             android:layout_width="match_parent"
