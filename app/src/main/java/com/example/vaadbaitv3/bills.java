@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,13 +21,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 
 public class bills extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -47,11 +52,13 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     ListView billsList;
     SharedPreferences address;
     ImageView btn_upload;
+    ArrayList<String> listOfPdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills);
+        billsList=findViewById(R.id.bills_list);
         address = getSharedPreferences("address", 0);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
@@ -68,6 +75,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         TextView name=headerView.findViewById(R.id.menu_name);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
+
+        downLoadBills();
         if(storage.equals("0")){
             profile.setImageResource(R.drawable.profile);
         }
@@ -84,7 +93,6 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-        billsList=findViewById(R.id.bills_list);
         btn_upload.setVisibility(View.INVISIBLE);
         if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2"))
             btn_upload.setVisibility(View.VISIBLE);
@@ -124,14 +132,14 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
             imageuri = data.getData();
             final String timestamp = "" + System.currentTimeMillis();
             StorageReference storageReference =  FirebaseStorage.getInstance().getReference("documents/"
-                    +address.getString("city2","")
-                    +address.getString("street2","")
-                    + address.getString("num_address2",""));
+                    +address.getString("city2","").trim()+"/"
+                    +address.getString("street2","").trim()+"/"
+                    + address.getString("num_address2","").trim());
             final String messagePushID = timestamp;
             Toast.makeText(bills.this, imageuri.toString(), Toast.LENGTH_SHORT).show();
 
             // Here we are uploading the pdf in firebase storage with the name of current time
-            final StorageReference filepath = storageReference.child(messagePushID + "." + "pdf");
+            final StorageReference filepath = storageReference.child(imageuri.getLastPathSegment() + "." + "pdf");
             Toast.makeText(bills.this, filepath.getName(), Toast.LENGTH_SHORT).show();
             filepath.putFile(imageuri).continueWithTask(new Continuation() {
                 @Override
@@ -166,7 +174,35 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     public void onClick(View view) {
 
     }
+ public void downLoadBills(){
+     StorageReference listRef =   FirebaseStorage.getInstance().getReference("documents/"
+             +address.getString("city2","").trim()+"/"
+             +address.getString("street2","").trim()+"/"
+             + address.getString("num_address2","").trim());
 
+     listRef.listAll()
+             .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                 @Override
+                 public void onSuccess(ListResult listResult) {
+
+                  listOfPdf = new ArrayList<>();
+                     for (StorageReference item : listResult.getItems()) {
+                         listOfPdf.add(item.getName());
+                     }
+                     billsList=(ListView)findViewById(R.id.bills_list);
+                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview,R.id.textView,listOfPdf);
+                     billsList.setAdapter(arrayAdapter);
+
+                     Toast.makeText(bills.this, listOfPdf.toString(),Toast.LENGTH_LONG).show();
+                 }
+             })
+             .addOnFailureListener(new OnFailureListener() {
+                 @Override
+                 public void onFailure(@NonNull Exception e) {
+                     // Uh-oh, an error occurred!
+                 }
+             });
+ }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();

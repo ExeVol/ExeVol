@@ -40,11 +40,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:textColor="@color/light_black"/>
+
         <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:id="@+id/bills_list"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/material_blue_grey_800"
+            android:dividerHeight="1dp" />
+
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"

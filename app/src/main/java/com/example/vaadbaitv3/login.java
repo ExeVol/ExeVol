@@ -150,9 +150,9 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                                     address = getSharedPreferences("address", 0);
                                     SharedPreferences.Editor editor = address.edit();
                                     editor.putBoolean("save1", switch_button.isChecked());
-                                    editor.putString(singleSnapshot.child("city2").getValue().toString(),"");
-                                    editor.putString(singleSnapshot.child("street2").getValue().toString(),"");
-                                    editor.putString(singleSnapshot.child("num_address2").getValue().toString(),"");
+                                    editor.putString("city2",singleSnapshot.child("city2").getValue().toString());
+                                    editor.putString("street2",singleSnapshot.child("street2").getValue().toString());
+                                    editor.putString("num_address2",singleSnapshot.child("num_address2").getValue().toString());
                                     editor.commit();
 
                                 }
