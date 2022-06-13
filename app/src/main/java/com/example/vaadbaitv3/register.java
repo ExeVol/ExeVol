@@ -180,31 +180,31 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
             p.setMessage("בתהליך רישום....");
             p.show();
             firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                                                                                                         @Override
-                                                                                                                                         public void onComplete(@NonNull Task<AuthResult> task) {
-                                                                                                                                             if (task.isSuccessful()) {
-                                                                                                                                                 try {
-                                                                                                                                                     if (!flag) {
-                                                                                                                                                         firebaseDatabase.getReference("Users").push();
-                                                                                                                                                         myref = firebaseDatabase.getReference("Users").push();
-                                                                                                                                                         DefaultUser u = new DefaultUser(Full_name.getText().toString()
-                                                                                                                                                                 , email.getText().toString()
-                                                                                                                                                                 , pass.getText().toString()
-                                                                                                                                                                 , phone.getText().toString()
-                                                                                                                                                                 , cityy.getSelectedItem().toString()
-                                                                                                                                                                 , streett.getSelectedItem().toString()
-                                                                                                                                                                 , num_address.getText().toString(), "0", type_guest, myref.getKey());
-                                                                                                                                                         myref.setValue(u);
-                                                                                                                                                     }
-                                                                                                                                                 } catch (Exception e) {
-                                                                                                                                                     Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                                                                                                                                 }
-                                                                                                                                                 p.dismiss();
-                                                                                                                                                 Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
-                                                                                                                                                 startActivity(new Intent(register.this, login.class));
-                                                                                                                                             }
-                                                                                                                                         }
-                                                                                                                                     }
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        try {
+                            if (!flag) {
+                                firebaseDatabase.getReference("Users").push();
+                                myref = firebaseDatabase.getReference("Users").push();
+                                DefaultUser u = new DefaultUser(Full_name.getText().toString()
+                                        , email.getText().toString()
+                                        , pass.getText().toString()
+                                        , phone.getText().toString()
+                                        , cityy.getSelectedItem().toString()
+                                        , streett.getSelectedItem().toString()
+                                        , num_address.getText().toString(), "0", type_guest, myref.getKey());
+                                myref.setValue(u);
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                        p.dismiss();
+                        Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(register.this, login.class));
+                    }
+                }
+            }
             ).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
