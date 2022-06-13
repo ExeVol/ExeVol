@@ -38,6 +38,7 @@ public class login extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
+    SharedPreferences address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +146,16 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                                 key=singleSnapshot.child("key").getValue().toString();
                                 storage=singleSnapshot.child("storage").getValue().toString();
                                 type_guest=singleSnapshot.child("type_guest").getValue().toString();
+                                if (type_guest.equals("3") || type_guest.equals("2")) {
+                                    address = getSharedPreferences("address", 0);
+                                    SharedPreferences.Editor editor = address.edit();
+                                    editor.putBoolean("save1", switch_button.isChecked());
+                                    editor.putString("city2",singleSnapshot.child("city2").getValue().toString());
+                                    editor.putString("street2",singleSnapshot.child("street2").getValue().toString());
+                                    editor.putString("num_address2",singleSnapshot.child("num_address2").getValue().toString());
+                                    editor.commit();
 
+                                }
                             }
                         }
                     }

@@ -86,7 +86,7 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
 
     @Override
     public void onClick(View view) {
-        if(survey_create==view){
+        /*if(survey_create==view){
             Intent intent = new Intent(votes.this, SurveyCreatePage.class);
             startActivity(intent);
             finish();
@@ -95,7 +95,7 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
             Intent intent = new Intent(votes.this, ShowSurveyPage.class);
             startActivity(intent);
             finish();
-        }
+        }*/
     }
 
     @Override

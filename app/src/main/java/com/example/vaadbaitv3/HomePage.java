@@ -65,7 +65,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             profile.setImageResource(R.drawable.profile);
         }
         else{
-            storageReference = FirebaseStorage.getInstance().getReference("image/" + email.replace('.', ' '));
+            storageReference = FirebaseStorage.getInstance().getReference("image/" + sp.getString("email","").replace('.', ' '));
             storageReference = storageReference.child(storage);
             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
@@ -77,6 +77,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+
     }
 
     @Override
