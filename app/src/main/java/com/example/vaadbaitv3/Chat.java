@@ -1,5 +1,6 @@
 package com.example.vaadbaitv3;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -84,6 +86,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
 
 
         btn_vaad.setVisibility(View.INVISIBLE);
+
         if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2"))
            btn_vaad.setVisibility(View.VISIBLE);
     }
@@ -116,9 +119,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(Chat.this, login.class);
-            startActivity(intent);
-            finish();
+            showPopup();
         }
         else if(id==R.id.bills_building){
             Intent intent = new Intent(Chat.this, bills.class);
@@ -158,5 +159,24 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
+    private void showPopup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(Chat.this);
+        alert.setMessage("אתה בטוח שאתה רוצה להתנתק?")
+                .setPositiveButton("התנתקות", new DialogInterface.OnClickListener()                 {
 
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        logout(); // Last step. Logout function
+
+                    }
+                }).setNegativeButton("בטל", null);
+
+        AlertDialog alert1 = alert.create();
+        alert1.show();
+    }
+
+    private void logout() {
+        startActivity(new Intent(this, login.class));
+        finish();
+    }
 }

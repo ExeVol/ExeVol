@@ -1,5 +1,6 @@
 package com.example.vaadbaitv3;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -112,9 +114,7 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(votes.this, login.class);
-            startActivity(intent);
-            finish();
+            showPopup();
         }
         else if(id==R.id.bills_building){
             Intent intent = new Intent(votes.this, bills.class);
@@ -155,4 +155,28 @@ public class votes extends AppCompatActivity implements View.OnClickListener, Na
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+
+
+
+
+    private void showPopup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(votes.this);
+        alert.setMessage("אתה בטוח שאתה רוצה להתנתק?")
+                .setPositiveButton("התנתקות", new DialogInterface.OnClickListener()                 {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        logout(); // Last step. Logout function
+
+                    }
+                }).setNegativeButton("בטל", null);
+
+        AlertDialog alert1 = alert.create();
+        alert1.show();
+    }
+
+    private void logout() {
+        startActivity(new Intent(this, login.class));
+        finish();
+    }
 }

@@ -2,4 +2,8 @@
     <string name="app_name"></string>
     <string name="open">פתח תפריט</string>
     <string name="close">סגור תפריט</string>
+    <string-array name="listOfPdf">
+
+    </string-array>
+
 </resources>

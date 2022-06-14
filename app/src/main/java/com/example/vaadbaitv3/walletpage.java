@@ -1,5 +1,7 @@
 package com.example.vaadbaitv3;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -7,15 +9,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,6 +36,19 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
     Uri uri;
     String picname,email;
 
+
+
+    TextView tv_money;
+    ImageButton add_money,remove_money;
+    EditText add_money_ed,remove_money_ed;
+    int sum_cash=0;
+    Uri imageuri = null;
+    SharedPreferences address;
+    FirebaseDatabase money_amount;
+    FirebaseAuth firebaseAuth_money;
+    DatabaseReference money_amount_ref;
+    ProgressDialog dialog;
+
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
@@ -40,6 +60,14 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
         drawerLayout = findViewById(R.id.drawerLayout);
+
+        tv_money=findViewById(R.id.tv_money);
+        add_money=findViewById(R.id.add_button);
+        add_money_ed=findViewById(R.id.add_money_ed);
+        remove_money=findViewById(R.id.remove_button);
+        remove_money_ed=findViewById(R.id.remove_money_ed);
+        remove_money.setOnClickListener(this);
+        add_money.setOnClickListener(this);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navigationView=findViewById(R.id.navigationView);
@@ -68,12 +96,57 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+
+
+        add_money.setVisibility(View.INVISIBLE);
+        add_money_ed.setVisibility(View.INVISIBLE);
+        remove_money.setVisibility(View.INVISIBLE);
+        remove_money_ed.setVisibility(View.INVISIBLE);
+        if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2")){
+            add_money.setVisibility(View.VISIBLE);
+            add_money_ed.setVisibility(View.VISIBLE);
+            remove_money.setVisibility(View.VISIBLE);
+            remove_money_ed.setVisibility(View.VISIBLE);
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onClick(View view) {
+    if(view==add_money){
+        String value=add_money_ed.getText().toString();
+        int desiredValue= Integer.parseInt(value);
+        sum_cash+=desiredValue;
+        tv_money.setText(String.valueOf(sum_cash));
+         }
 
+    if(view==remove_money){
+        String value=remove_money_ed.getText().toString();
+        int desiredValue= Integer.parseInt(value);
+        sum_cash-=desiredValue;
+        tv_money.setText(String.valueOf(sum_cash));
     }
+}
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -89,9 +162,7 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(walletpage.this, login.class);
-            startActivity(intent);
-            finish();
+            showPopup();
         }
         else if(id==R.id.bills_building){
             Intent intent = new Intent(walletpage.this, bills.class);
@@ -130,5 +201,25 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+    private void showPopup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(walletpage.this);
+        alert.setMessage("אתה בטוח שאתה רוצה להתנתק?")
+                .setPositiveButton("התנתקות", new DialogInterface.OnClickListener()                 {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        logout(); // Last step. Logout function
+
+                    }
+                }).setNegativeButton("בטל", null);
+
+        AlertDialog alert1 = alert.create();
+        alert1.show();
+    }
+
+    private void logout() {
+        startActivity(new Intent(this, login.class));
+        finish();
     }
 }

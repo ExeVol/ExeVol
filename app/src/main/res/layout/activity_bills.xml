@@ -42,11 +42,11 @@
             android:textColor="@color/light_black"/>
 
         <ListView
-            android:id="@+id/bills_list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:divider="@color/material_blue_grey_800"
-            android:dividerHeight="1dp" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/mList" />
 
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView

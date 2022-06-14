@@ -1,6 +1,7 @@
 package com.example.vaadbaitv3;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -58,7 +59,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills);
-        billsList=findViewById(R.id.bills_list);
+
         address = getSharedPreferences("address", 0);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
@@ -189,9 +190,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                      for (StorageReference item : listResult.getItems()) {
                          listOfPdf.add(item.getName());
                      }
-                     billsList=(ListView)findViewById(R.id.bills_list);
-                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview,R.id.textView,listOfPdf);
-                     billsList.setAdapter(arrayAdapter);
+
+
 
                      Toast.makeText(bills.this, listOfPdf.toString(),Toast.LENGTH_LONG).show();
                  }
@@ -256,6 +256,26 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    private void showPopup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(bills.this);
+        alert.setMessage("אתה בטוח שאתה רוצה להתנתק?")
+                .setPositiveButton("התנתקות", new DialogInterface.OnClickListener()                 {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        logout(); // Last step. Logout function
+
+                    }
+                }).setNegativeButton("בטל", null);
+
+        AlertDialog alert1 = alert.create();
+        alert1.show();
+    }
+
+    private void logout() {
+        startActivity(new Intent(this, login.class));
+        finish();
+    }
 }
 
 
