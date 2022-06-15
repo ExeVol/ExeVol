@@ -136,27 +136,32 @@ public class login extends AppCompatActivity implements View.OnClickListener {
             password=password_login.getText().toString();
             email=email_login.getText().toString();
             databaseReference=firebaseDatabase.getReference("Users");
-            thread=new Thread() { public void run() { try { synchronized (login.this) {
+            thread=new Thread() {
+                public void run() {
+                    try { synchronized (login.this)
+                    {
                 databaseReference.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                     @Override
                     public void onSuccess(DataSnapshot dataSnapshot) {
                         for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                            if((singleSnapshot.child("email").getValue().toString().equals(email))){
-                                name=singleSnapshot.child("name").getValue().toString();
-                                key=singleSnapshot.child("key").getValue().toString();
-                                storage=singleSnapshot.child("storage").getValue().toString();
-                                type_guest=singleSnapshot.child("type_guest").getValue().toString();
+                          if (singleSnapshot.getKey().equals(email.replace(".", " "))){
+                           DefaultUser u = singleSnapshot.getValue(DefaultUser.class);
+                         //   if((singleSnapshot.child("email").getValue()!=null&&singleSnapshot.child("email").getValue().toString().equals(email))){
+                                name=u.getName();
+                                key=u.getKey();
+                                storage=u.getStorage();
+                                type_guest=Integer.valueOf(u.getType_guest()).toString();
                                 if (type_guest.equals("3") || type_guest.equals("2")) {
                                     address = getSharedPreferences("address", 0);
                                     SharedPreferences.Editor editor = address.edit();
                                     editor.putBoolean("save1", switch_button.isChecked());
-                                    editor.putString("city2",singleSnapshot.child("city2").getValue().toString());
-                                    editor.putString("street2",singleSnapshot.child("street2").getValue().toString());
-                                    editor.putString("num_address2",singleSnapshot.child("num_address2").getValue().toString());
+                                    editor.putString("city2",u.getCity2());
+                                    editor.putString("street2",u.getStreet2());
+                                    editor.putString("num_address2",u.getNum_address2());
                                     editor.commit();
 
                                 }
-                            }
+                           }
                         }
                     }
                 });

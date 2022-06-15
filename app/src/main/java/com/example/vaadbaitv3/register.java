@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class register extends AppCompatActivity implements   AdapterView.OnItemSelectedListener , View.OnClickListener {
@@ -49,6 +49,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
     DatabaseReference myref, myref1;
     boolean flag;
     int type_guest;
+    Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,8 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
         submit_register.setOnClickListener(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        myref = firebaseDatabase.getReference("Users");
-        myref1 = firebaseDatabase.getReference("Users");
+        myref = firebaseDatabase.getReference("Address/");
+        myref1 = firebaseDatabase.getReference("Address/");
 
     }
 
@@ -150,7 +151,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
         // if (isVaildate()) {
 
-        try {
+
             myref1.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -179,44 +180,109 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
             p = new ProgressDialog(this);
             p.setMessage("בתהליך רישום....");
             p.show();
-            firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        try {
-                            if (!flag) {
-                                firebaseDatabase.getReference("Users").push();
-                                myref = firebaseDatabase.getReference("Users").push();
-                                DefaultUser u = new DefaultUser(Full_name.getText().toString()
-                                        , email.getText().toString()
-                                        , pass.getText().toString()
-                                        , phone.getText().toString()
-                                        , cityy.getSelectedItem().toString()
-                                        , streett.getSelectedItem().toString()
-                                        , num_address.getText().toString(), "0", type_guest, myref.getKey());
-                                myref.setValue(u);
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                        p.dismiss();
-                        Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(register.this, login.class));
-                    }
-                }
-            }
-            ).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(register.this, "הרשמה לא  בוצעה בהצלחה", Toast.LENGTH_LONG).show();
-                    Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+            thread = new Thread() {
+                public void run() {
+                    try {
+                        synchronized (register.this) {
+                            firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        try {
+                                            if (!flag) {
+                               /* myref = firebaseDatabase.getReference("Address/"+cityy.getSelectedItem().toString()+"/"+
+                                        streett.getSelectedItem().toString()+"/"+
+                                        num_address.getText().toString()+"/Users").push();
+*/
+                                                                                                                                                                         myref = firebaseDatabase.getReference("Users").child(email.getText().toString().replace(".", " "));
 
-        } catch (Exception e) {
-            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
+                                                                                                                                                                         DefaultUser u = new DefaultUser(Full_name.getText().toString()
+                                                                                                                                                                                 , email.getText().toString()
+                                                                                                                                                                                 , pass.getText().toString()
+                                                                                                                                                                                 , phone.getText().toString()
+                                                                                                                                                                                 , cityy.getSelectedItem().toString()
+                                                                                                                                                                                 , streett.getSelectedItem().toString()
+                                                                                                                                                                                 , num_address.getText().toString(), "0", type_guest, myref.getKey());
+                                                                                                                                                                         myref.setValue(u);
+                                                                                                                                                                         ArrayList<String> usersInAddress = new ArrayList<>();
+                                                                                                                                                                         myref = firebaseDatabase.getReference("Address").child(cityy.getSelectedItem().toString()).child(
+                                                                                                                                                                                 streett.getSelectedItem().toString()).child( num_address.getText().toString()).child("users");
+                                                                                                                                                                         myref.addValueEventListener(new ValueEventListener() {
+                                                                                                                                                                             @Override
+                                                                                                                                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                                                                                                                                                 for (DataSnapshot ds : snapshot.getChildren()) {
+                                                                                                                                                                                    // for (String s : (ArrayList<String>)ds.getValue(ArrayList.class))
+                                                                                                                                                                                     usersInAddress.add(ds.getValue(String.class));
+
+                                                                                                                                                                                 }
+                                                                                                                                                                                 usersInAddress.add(email.getText().toString().replace(".", " "));
+                                                                                                                                                                                 Toast.makeText(register.this, ""+usersInAddress.size(), Toast.LENGTH_LONG).show();
+                                                                                                                                                                                 myref = firebaseDatabase.getReference("Address").child(cityy.getSelectedItem().toString()).child(
+                                                                                                                                                                                         streett.getSelectedItem().toString()).child( num_address.getText().toString());
+                                                                                                                                                                                 HashMap<String, Object> map = new HashMap<>();
+                                                                                                                                                                                 map.put("users", usersInAddress);
+                                                                                                                                                                                 myref.updateChildren(map);
+                                                                                                                                                                             }
+
+                                                                                                                                                                             @Override
+                                                                                                                                                                             public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                                                                                                                             }
+                                                                                                                                                                         });
+
+
+
+                                                                                                                                                                         /*  .child(email.getText().toString().replace("."," "));*/
+                                                                                                                                                                         /* myref.setValue(email.getText().toString().replace("."," "));*/
+                                                                                                                                                                     }
+                                                                                                                                                                 } catch (Exception e) {
+                                                                                                                                                                     Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                                                                                                                 }
+                                                                                                                                                                 p.dismiss();
+                                                                                                                                                                 Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
+                                                                                                                                                                 startActivity(new Intent(register.this, login.class));
+                                                                                                                                                             }
+                                                                                                                                                         }
+                                                                                                                                                     }
+                            ).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(register.this, "הרשמה לא  בוצעה בהצלחה", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            //}
+                     /*    catch(Exception e){
+                            Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }*/
+
+                            register.this.wait(1000);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                }
+
+                            });
+
+                        } } catch (InterruptedException e) { }
+                    }
+
+
+
+        };
+
+
+        thread.start();
+                }
+
+
+
+
+
+
 
     @Override
     public void onClick(View view) {
@@ -234,9 +300,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
             } else if (num_address == null) {
                 num_address.setError("חובה להקליד מספר בניין");
                 pass.setFocusable(true);
-            } else if (Patterns.EMAIL_ADDRESS.pattern().contains(" " + "!" + "#" + "$" + "%" + "^" + "&" + "*" + "(" + ")" + "-")) {
-                email.setError("לא ניתן להכניס תווים אלה במייל");
-                email.setFocusable(true);
+
             } else if ((Full_name.toString().contains("@") ||
                     Full_name.toString().contains("!") ||
                     Full_name.toString().contains("$") ||

@@ -21,7 +21,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -43,9 +42,6 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
     EditText add_money_ed,remove_money_ed;
     int sum_cash=0;
     Uri imageuri = null;
-    SharedPreferences address;
-    FirebaseDatabase money_amount;
-    FirebaseAuth firebaseAuth_money;
     DatabaseReference money_amount_ref;
     ProgressDialog dialog;
 
@@ -55,6 +51,8 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
     SharedPreferences.Editor editor;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
+    FirebaseDatabase database=FirebaseDatabase.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +106,9 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
             remove_money.setVisibility(View.VISIBLE);
             remove_money_ed.setVisibility(View.VISIBLE);
         }
+
+
+
     }
 
 
@@ -138,13 +139,26 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         int desiredValue= Integer.parseInt(value);
         sum_cash+=desiredValue;
         tv_money.setText(String.valueOf(sum_cash));
-         }
+        SharedPreferences Address=getSharedPreferences("address", 0);
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference=database.getReference("Address/"+Address.getString("city2","")+"/"+
+                Address.getString("street2","")+"/"+
+                Address.getString("num_address2","")).child("amount");
+        databaseReference.setValue(sum_cash);
+
+    }
 
     if(view==remove_money){
         String value=remove_money_ed.getText().toString();
         int desiredValue= Integer.parseInt(value);
         sum_cash-=desiredValue;
         tv_money.setText(String.valueOf(sum_cash));
+        SharedPreferences Address=getSharedPreferences("address", 0);
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference=database.getReference("Address/"+Address.getString("city2","")+"/"+
+                Address.getString("street2","")+"/"+
+                Address.getString("num_address2","")).child("amount");
+        databaseReference.setValue(sum_cash);
     }
 }
 

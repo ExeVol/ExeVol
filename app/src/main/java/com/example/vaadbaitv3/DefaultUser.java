@@ -12,6 +12,10 @@ public class DefaultUser {
     private String Street2;
     private String num_address2;
     private String storage;
+
+    public DefaultUser() {
+    }
+
     private int type_guest;
     private String key;
 
