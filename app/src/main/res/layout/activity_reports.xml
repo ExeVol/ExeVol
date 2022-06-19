@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".reports"
     android:id="@+id/drawerLayout">
+    <ScrollView
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,13 +38,19 @@
             android:layout_height="96dp"
             android:layout_gravity="center"
             android:background="@drawable/upload_report" />
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/list_of_reports">
 
-        </ListView>
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:src="@drawable/tv_reports" />
+
+        <ListView
+            android:id="@+id/list_of_reports"
+            android:layout_width="wrap_content"
+            android:layout_height="289dp"></ListView>
     </LinearLayout>
+    </ScrollView>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"

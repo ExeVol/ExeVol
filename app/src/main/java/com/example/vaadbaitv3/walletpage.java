@@ -7,22 +7,28 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -34,8 +40,8 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
     ImageView profile;
     Uri uri;
     String picname,email;
-
-
+    String amount_amount;
+    Thread thread;
 
     TextView tv_money;
     ImageButton add_money,remove_money;
@@ -66,7 +72,7 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         remove_money_ed=findViewById(R.id.remove_money_ed);
         remove_money.setOnClickListener(this);
         add_money.setOnClickListener(this);
-        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navigationView=findViewById(R.id.navigationView);
         navigationView.inflateMenu(R.menu.side_menu);
@@ -106,9 +112,95 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
             remove_money.setVisibility(View.VISIBLE);
             remove_money_ed.setVisibility(View.VISIBLE);
         }
+        SharedPreferences address=getSharedPreferences("address", 0);
+         DatabaseReference address_amount=firebaseDatabase.getReference("Address/"
+                 +(address.getString("city2","").trim())
+                 +"/" +(address.getString("street2","").trim())+
+                 "/" + (address.getString("num_address2","")));
+         address_amount.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+             @Override
+             public void onSuccess(DataSnapshot dataSnapshot) {
+                 for (DataSnapshot children : dataSnapshot.getChildren()) {
+                        Toast.makeText(walletpage.this, children.getValue(String.class),Toast.LENGTH_LONG);
+                 }
+             }
+         })  ;
+        // amount_money();//
+        final DatabaseReference myRef = database.getReferenceFromUrl("https://vaadbaitv3-default-rtdb.firebaseio.com/Address/"+
+                address.getString("city2","")+"/"+
+                address.getString("street2","")+"/"+
+                address.getString("num_address2",""));
+        myRef.child("amount").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot children : dataSnapshot.getChildren()) {
+                    for (DataSnapshot child : children.getChildren()) {
+                        //Log.v("key1","   " + child.getKey());
+                        if(child.getKey().equals("Thumb")){
+                            for (DataSnapshot child2 : child.getChildren()) {
+                                //Log.v("key2","   " + child2.getValue(String.class));
+                                for (DataSnapshot child3 : child2.getChildren()) {
+                                    //Log.v("key3","   " + child3.getKey());
+                                    if(child3.getKey().equals("amount")){
+                                        Log.v("key4","   " + child3.getValue(String.class));
+                                        tv_money.setText(child3.getValue().toString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
 
+    }
+
+    public void amount_money(){
+        thread=new Thread() {
+            public void run() { try {synchronized (walletpage.this) {
+                SharedPreferences address = getSharedPreferences("address", 0);
+                DatabaseReference address_amount = firebaseDatabase.getReference("Address/"
+                        + (address.getString("city2", "").trim())
+                        + "/" + (address.getString("street2", "").trim()) +
+                        "/" + (address.getString("num_address2", "")));
+                address_amount.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            amount_amount = snapshot.getValue().toString();
+                            SharedPreferences address = getSharedPreferences("address", 0);
+                            snapshot.child("amount");
+                            Toast.makeText(walletpage.this, (Integer) snapshot.getValue(), Toast.LENGTH_LONG).show();
+                            DatabaseReference address_amount = firebaseDatabase.getReference("Address/"
+                                    + (address.getString("city2", "").trim())
+                                    + "/" + address.getString("street2", "").trim() +
+                                    "/" + address.getString("num_address2", "")).getRef();
+
+                            tv_money.setText(snapshot.child(address.getString("city2", "").trim()).child(address.getString("street2", ""))
+                                    .child(address.getString("num_address2", "")).getValue().toString());
+                            tv_money.setText(snapshot.child("amount").getValue().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                Toast.makeText(walletpage.this, amount_amount, Toast.LENGTH_LONG).show();
+                address_amount.toString();
+            }} catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
     }
 
 
@@ -118,12 +210,32 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
 
 
 
+    /*address_amount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    amount_amount= snapshot.getValue().toString();
+                    SharedPreferences address=getSharedPreferences("address", 0);
+                    snapshot.child("amount");
+                    Toast.makeText(walletpage.this, (Integer) snapshot.getValue(),Toast.LENGTH_LONG).show();
+                    DatabaseReference address_amount=firebaseDatabase.getReference("Address/"
+                            +(address.getString("city2","").trim())
+                            +"/" +address.getString("street2","").trim()+
+                            "/" + address.getString("num_address2","")).getRef();
 
+                    tv_money.setText(snapshot.child(address.getString("city2","").trim()).child(address.getString("street2",""))
+                            .child(address.getString("num_address2","")).getValue().toString());
+                    tv_money.setText(snapshot.child("amount").getValue().toString());
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-
-
-
+            }
+        });
+        Toast.makeText(walletpage.this,amount_amount,Toast.LENGTH_LONG).show();
+        address_amount.toString();*/
 
 
 
@@ -144,7 +256,9 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         DatabaseReference databaseReference=database.getReference("Address/"+Address.getString("city2","")+"/"+
                 Address.getString("street2","")+"/"+
                 Address.getString("num_address2","")).child("amount");
+
         databaseReference.setValue(sum_cash);
+
 
     }
 

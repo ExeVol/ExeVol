@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -59,11 +60,11 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bills);
-
         address = getSharedPreferences("address", 0);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        billsList=findViewById(R.id.mList);
         navigationView=findViewById(R.id.navigationView);
         navigationView.inflateMenu(R.menu.side_menu);
         View headerView=  navigationView.inflateHeaderView(R.layout.headerfile);
@@ -76,8 +77,10 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         TextView name=headerView.findViewById(R.id.menu_name);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
-
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.listview,listOfPdf);
+        billsList.setAdapter(arrayAdapter);
         downLoadBills();
+
         if(storage.equals("0")){
             profile.setImageResource(R.drawable.profile);
         }
@@ -114,6 +117,9 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                 startActivityForResult(galleryIntent, 1);
             }
         });
+        listOfPdf = new ArrayList<>();
+
+
     }
     ProgressDialog dialog;
 
@@ -186,15 +192,17 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                  @Override
                  public void onSuccess(ListResult listResult) {
 
-                  listOfPdf = new ArrayList<>();
+
                      for (StorageReference item : listResult.getItems()) {
-                         listOfPdf.add(item.getName());
+                         listOfPdf.add(item.getName().toString());
                      }
 
 
 
                      Toast.makeText(bills.this, listOfPdf.toString(),Toast.LENGTH_LONG).show();
+
                  }
+
              })
              .addOnFailureListener(new OnFailureListener() {
                  @Override
@@ -202,6 +210,10 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                      // Uh-oh, an error occurred!
                  }
              });
+
+
+
+
  }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

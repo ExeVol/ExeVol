@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Settings"
     android:id="@+id/drawerLayout">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,11 +23,56 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:src="@drawable/settingsheader"
-            android:layout_gravity="center"/>
+            android:layout_width="362dp"
+            android:layout_height="109dp"
+            android:layout_gravity="center"
+            android:src="@drawable/settingsheader" />
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_update"
+            android:layout_width="123dp"
+            android:layout_height="124dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profile"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="4dp" />
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="263dp"
+            android:layout_height="78dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/secular_one"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/secular_one"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <ImageButton
+            android:layout_width="252dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:background="@drawable/update_profile" />
+
+        <ImageButton
+            android:layout_width="236dp"
+            android:layout_height="109dp"
+            android:layout_gravity="center"
+            android:background="@drawable/logout_button"
+            android:id="@+id/logout_button"
+            android:layout_marginLeft="10dp"/>
+
     </LinearLayout>
+    </ScrollView>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"

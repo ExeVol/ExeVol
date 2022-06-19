@@ -33,20 +33,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload A Pdf"
-            android:textSize="22sp"
+            android:text="העלה חשבונית"
+            android:textSize="30dp"
             android:fontFamily="@font/secular_one"
             android:textStyle="bold"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:textColor="@color/light_black"/>
+            android:textColor="@color/white"/>
 
-        <ListView
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/uploaded_recepies" />
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:id="@+id/mList" />
+            android:layout_height="match_parent">
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/mList">
+
+            </ListView>
+        </ScrollView>
 
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
