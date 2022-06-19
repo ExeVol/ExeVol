@@ -33,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.nio.charset.StandardCharsets;
+
 public class walletpage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
@@ -125,7 +127,7 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
                  }
              }
          })  ;
-        // amount_money();//
+         amount_money();
         final DatabaseReference myRef = database.getReferenceFromUrl("https://vaadbaitv3-default-rtdb.firebaseio.com/Address/"+
                 address.getString("city2","")+"/"+
                 address.getString("street2","")+"/"+
@@ -165,9 +167,9 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
             public void run() { try {synchronized (walletpage.this) {
                 SharedPreferences address = getSharedPreferences("address", 0);
                 DatabaseReference address_amount = firebaseDatabase.getReference("Address/"
-                        + (address.getString("city2", "").trim())
-                        + "/" + (address.getString("street2", "").trim()) +
-                        "/" + (address.getString("num_address2", "")));
+                        + (address.getString("city2", "").trim().getBytes(StandardCharsets.UTF_8))
+                        + "/" + (address.getString("street2", "").trim().getBytes(StandardCharsets.UTF_8)) +
+                        "/" + (address.getString("num_address2", "").getBytes(StandardCharsets.UTF_8)));
                 address_amount.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -184,6 +186,7 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
                             tv_money.setText(snapshot.child(address.getString("city2", "").trim()).child(address.getString("street2", ""))
                                     .child(address.getString("num_address2", "")).getValue().toString());
                             tv_money.setText(snapshot.child("amount").getValue().toString());
+
                         }
                     }
 

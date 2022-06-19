@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -65,6 +66,28 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         billsList=findViewById(R.id.mList);
+        billsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView v = view.findViewById(R.id.textViewLiad);
+                String bill= (String) adapterView.getItemAtPosition(i);
+                Toast.makeText(bills.this, bill+" ", Toast.LENGTH_LONG).show();
+                storageReference = FirebaseStorage.getInstance().getReference("documents/" +
+                        address.getString("city2","").trim()+"/"+
+                        address.getString("street2","").trim()+
+                        address.getString("num_address2",""));
+                storageReference = storageReference.child(bill);
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                    }
+
+        });
+            }
+        });
         navigationView=findViewById(R.id.navigationView);
         navigationView.inflateMenu(R.menu.side_menu);
         View headerView=  navigationView.inflateHeaderView(R.layout.headerfile);
@@ -77,8 +100,6 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         TextView name=headerView.findViewById(R.id.menu_name);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.listview,listOfPdf);
-        billsList.setAdapter(arrayAdapter);
         downLoadBills();
 
         if(storage.equals("0")){
@@ -182,6 +203,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
 
     }
  public void downLoadBills(){
+
      StorageReference listRef =   FirebaseStorage.getInstance().getReference("documents/"
              +address.getString("city2","").trim()+"/"
              +address.getString("street2","").trim()+"/"
@@ -196,10 +218,12 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                      for (StorageReference item : listResult.getItems()) {
                          listOfPdf.add(item.getName().toString());
                      }
-
+                     ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(bills.this, R.layout.listview,R.id.textViewLiad,listOfPdf);
+                     billsList.setAdapter(arrayAdapter);
 
 
                      Toast.makeText(bills.this, listOfPdf.toString(),Toast.LENGTH_LONG).show();
+
 
                  }
 
