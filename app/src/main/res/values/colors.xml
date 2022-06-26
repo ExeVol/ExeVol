@@ -13,5 +13,7 @@
     <color name="light_black">#333333</color>
     <color name="light_white">#F5F5F5</color>
     <color name="light_brown">#A69784</color>
+    <color name="red">#F44336</color>
+    <color name="green">#51F4A8</color>
 
 </resources>

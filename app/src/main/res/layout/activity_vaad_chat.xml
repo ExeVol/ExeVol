@@ -33,6 +33,7 @@
                 android:layout_height="56dp"
                 app:icon="@drawable/send"
                 android:color="#ffffff"
+                android:id="@+id/send_message"
                 android:layout_gravity="center"/>
             <androidx.appcompat.widget.AppCompatEditText
                 android:layout_width="344dp"
@@ -41,6 +42,7 @@
                 android:fontFamily="@font/secular_one"
                 android:gravity="center"
                 android:hint="לחץ להקלדה"
+                android:id="@+id/message_vaad"
                 android:textColorHint="@color/white" />
 
         </LinearLayout>

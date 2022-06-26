@@ -12,10 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class register extends AppCompatActivity implements   AdapterView.OnItemSelectedListener , View.OnClickListener {
-    EditText Full_name, email, pass, passcheck, phone, num_address;
+    EditText Full_name, email, pass, phone, num_address;
     Spinner cityy, streett;
     Button submit_register;
     RadioButton btnn1, btnn2, btnn3;
@@ -200,8 +197,8 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                                                                                                                                                                                  , email.getText().toString()
                                                                                                                                                                                  , pass.getText().toString()
                                                                                                                                                                                  , phone.getText().toString()
-                                                                                                                                                                                 , cityy.getSelectedItem().toString()
-                                                                                                                                                                                 , streett.getSelectedItem().toString()
+                                                                                                                                                                                 , cityy.getSelectedItem().toString().trim()
+                                                                                                                                                                                 , streett.getSelectedItem().toString().trim()
                                                                                                                                                                                  , num_address.getText().toString(), "0", type_guest, myref.getKey());
                                                                                                                                                                          myref.setValue(u);
                                                                                                                                                                          ArrayList<String> usersInAddress = new ArrayList<>();
@@ -218,7 +215,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                                                                                                                                                                                  }
                                                                                                                                                                                  usersInAddress.add(email.getText().toString().replace(".", " "));
                                                                                                                                                                                  Toast.makeText(register.this, ""+usersInAddress.size(), Toast.LENGTH_LONG).show();
-                                                                                                                                                                                 myref = firebaseDatabase.getReference("Address").child(cityy.getSelectedItem().toString()).child(
+                                                                                                                                                                                 myref = firebaseDatabase.getReference("Address").child(cityy.getSelectedItem().toString().trim()).child(
                                                                                                                                                                                          streett.getSelectedItem().toString()).child( num_address.getText().toString());
                                                                                                                                                                                  HashMap<String, Object> map = new HashMap<>();
                                                                                                                                                                                  map.put("users", usersInAddress);

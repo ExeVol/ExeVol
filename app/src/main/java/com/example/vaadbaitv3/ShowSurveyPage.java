@@ -8,18 +8,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -31,13 +30,11 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
     NavigationView navigationView;
     String storage;
     ImageView profile;
-    Uri uri;
-    String picname,email;
+    String email;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
-    ImageButton survey_create;
+    ListView survey_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +67,22 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
+
+
+        survey_list=findViewById(R.id.survey_list);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ShowSurveyPage.this, R.layout.custom_list_view,R.id.article);
+        survey_list.setAdapter(arrayAdapter);
+        survey_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView v = view.findViewById(R.id.article);
+
+
+
+            }
+        });
     }
+
     @Override
     public void onClick(View view) {
 

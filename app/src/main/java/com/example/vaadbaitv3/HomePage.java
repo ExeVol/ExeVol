@@ -11,16 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -30,15 +27,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     private EndDrawerToggle drawerToggle ;
     String storage;
     ImageView profile;
-    Uri uri;
-    String picname,email;
     ImageView bt1,bt2,bt3;
-
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

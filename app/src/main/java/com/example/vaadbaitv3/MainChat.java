@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -28,15 +29,14 @@ public class MainChat extends AppCompatActivity implements View.OnClickListener,
     private EndDrawerToggle drawerToggle ;
     String storage;
     ImageView profile;
-    Uri uri;
-    String picname,email;
-
+    String email;
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
+    EditText message;
+    MaterialButton send;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +49,9 @@ public class MainChat extends AppCompatActivity implements View.OnClickListener,
         View headerView=  navigationView.inflateHeaderView(R.layout.headerfile);
         profile=headerView.findViewById(R.id.profile_header);
         profile.setOnClickListener(this);
+        message=findViewById(R.id.message_normal);
+        send=findViewById(R.id.send_message);
+        send.setOnClickListener(this);
         sp = getSharedPreferences("save", 0);
         editor = sp.edit();
         TextView name=headerView.findViewById(R.id.menu_name);
@@ -146,4 +149,5 @@ public class MainChat extends AppCompatActivity implements View.OnClickListener,
         startActivity(new Intent(this, login.class));
         finish();
     }
+
 }

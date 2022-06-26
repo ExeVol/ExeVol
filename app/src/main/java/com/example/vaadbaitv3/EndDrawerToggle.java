@@ -2,7 +2,6 @@ package com.example.vaadbaitv3;
 
 import android.content.res.Configuration;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -16,24 +15,18 @@ public class EndDrawerToggle implements DrawerLayout.DrawerListener {
     private final AppCompatImageButton toggleButton;
     private final int openDrawerContentDescRes;
     private final int closeDrawerContentDescRes;
-
     private DrawerArrowDrawable arrowDrawable;
-
     public EndDrawerToggle(DrawerLayout drawerLayout, Toolbar toolbar,
                            int openDrawerContentDescRes, int closeDrawerContentDescRes) {
         this.drawerLayout = drawerLayout;
-
         this.openDrawerContentDescRes = openDrawerContentDescRes;
         this.closeDrawerContentDescRes = closeDrawerContentDescRes;
-
         toggleButton = new AppCompatImageButton(toolbar.getContext(), null,
                 R.attr.toolbarNavigationButtonStyle);
        // toggleButton.setBackgroundResource(R.color.black);
         toggleButton.setColorFilter(R.color.black);
-
         toolbar.addView(toggleButton, new Toolbar.LayoutParams(GravityCompat.END));
         toggleButton.setOnClickListener(v -> toggle());
-
         loadDrawerArrowDrawable();
     }
 

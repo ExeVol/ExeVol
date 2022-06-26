@@ -22,7 +22,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,14 +36,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     String picname,email;
     TextView tv_user,tv_address;
     ImageButton logout_button;
-
-
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
     SharedPreferences Address;
     SharedPreferences.Editor editor;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

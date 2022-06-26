@@ -11,15 +11,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -29,17 +26,12 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     private EndDrawerToggle drawerToggle ;
     String storage;
     ImageView profile;
-    Uri uri;
-    String picname,email;
+    String email;
     ImageButton btn_vaad,btn_citizen;
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
-
-
-
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
 
     @Override
