@@ -1,13 +1,11 @@
 package com.example.vaadbaitv3;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -33,63 +31,52 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.nio.charset.StandardCharsets;
-
 public class walletpage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
     String storage;
     ImageView profile;
-    Uri uri;
-    String picname,email;
+    String email;
     String amount_amount;
     Thread thread;
-
     TextView tv_money;
     ImageButton add_money,remove_money;
     EditText add_money_ed,remove_money_ed;
     int sum_cash=0;
-    Uri imageuri = null;
-    DatabaseReference money_amount_ref;
-    ProgressDialog dialog;
-
     androidx.appcompat.widget.Toolbar toolbar;
     NavigationView navigationView;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
-    FirebaseDatabase database=FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
         drawerLayout = findViewById(R.id.drawerLayout);
-
-        tv_money=findViewById(R.id.tv_money);
-        add_money=findViewById(R.id.add_button);
-        add_money_ed=findViewById(R.id.add_money_ed);
-        remove_money=findViewById(R.id.remove_button);
-        remove_money_ed=findViewById(R.id.remove_money_ed);
+        tv_money = findViewById(R.id.tv_money);
+        add_money = findViewById(R.id.add_button);
+        add_money_ed = findViewById(R.id.add_money_ed);
+        remove_money = findViewById(R.id.remove_button);
+        remove_money_ed = findViewById(R.id.remove_money_ed);
         remove_money.setOnClickListener(this);
         add_money.setOnClickListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        navigationView=findViewById(R.id.navigationView);
+        navigationView = findViewById(R.id.navigationView);
         navigationView.inflateMenu(R.menu.side_menu);
-        View headerView=  navigationView.inflateHeaderView(R.layout.headerfile);
-        profile=headerView.findViewById(R.id.profile_header);
+        View headerView = navigationView.inflateHeaderView(R.layout.headerfile);
+        profile = headerView.findViewById(R.id.profile_header);
         profile.setOnClickListener(this);
         sp = getSharedPreferences("save", 0);
         editor = sp.edit();
-        TextView name=headerView.findViewById(R.id.menu_name);
-        name.setText("ברוך הבא, "+sp.getString("name",""));
-        storage=sp.getString("storage","");
-        if(storage.equals("0")){
+        TextView name = headerView.findViewById(R.id.menu_name);
+        name.setText("ברוך הבא, " + sp.getString("name", ""));
+        storage = sp.getString("storage", "");
+        if (storage.equals("0")) {
             profile.setImageResource(R.drawable.profile);
-        }
-        else{
+        } else {
             storageReference = FirebaseStorage.getInstance().getReference("image/" + email.replace('.', ' '));
             storageReference = storageReference.child(storage);
             storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -108,58 +95,15 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         add_money_ed.setVisibility(View.INVISIBLE);
         remove_money.setVisibility(View.INVISIBLE);
         remove_money_ed.setVisibility(View.INVISIBLE);
-        if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2")){
+        if (sp.getString("type_guest", "").equals("3") || sp.getString("type_guest", "").equals("2")) {
             add_money.setVisibility(View.VISIBLE);
             add_money_ed.setVisibility(View.VISIBLE);
             remove_money.setVisibility(View.VISIBLE);
             remove_money_ed.setVisibility(View.VISIBLE);
         }
-        SharedPreferences address=getSharedPreferences("address", 0);
-         DatabaseReference address_amount=firebaseDatabase.getReference("Address/"
-                 +(address.getString("city2","").trim())
-                 +"/" +(address.getString("street2","").trim())+
-                 "/" + (address.getString("num_address2","")));
-         address_amount.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-             @Override
-             public void onSuccess(DataSnapshot dataSnapshot) {
-                 for (DataSnapshot children : dataSnapshot.getChildren()) {
-                        Toast.makeText(walletpage.this, children.getValue(String.class),Toast.LENGTH_LONG);
-                 }
-             }
-         })  ;
-         amount_money();
-        final DatabaseReference myRef = database.getReferenceFromUrl("https://vaadbaitv3-default-rtdb.firebaseio.com/Address/"+
-                address.getString("city2","")+"/"+
-                address.getString("street2","")+"/"+
-                address.getString("num_address2",""));
-        myRef.child("amount").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot children : dataSnapshot.getChildren()) {
-                    for (DataSnapshot child : children.getChildren()) {
-                        //Log.v("key1","   " + child.getKey());
-                        if(child.getKey().equals("Thumb")){
-                            for (DataSnapshot child2 : child.getChildren()) {
-                                //Log.v("key2","   " + child2.getValue(String.class));
-                                for (DataSnapshot child3 : child2.getChildren()) {
-                                    //Log.v("key3","   " + child3.getKey());
-                                    if(child3.getKey().equals("amount")){
-                                        Log.v("key4","   " + child3.getValue(String.class));
-                                        tv_money.setText(child3.getValue().toString());
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
+        amount_money();
     }
 
     public void amount_money(){
@@ -167,25 +111,18 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
             public void run() { try {synchronized (walletpage.this) {
                 SharedPreferences address = getSharedPreferences("address", 0);
                 DatabaseReference address_amount = firebaseDatabase.getReference("Address/"
-                        + (address.getString("city2", "").trim().getBytes(StandardCharsets.UTF_8))
-                        + "/" + (address.getString("street2", "").trim().getBytes(StandardCharsets.UTF_8)) +
-                        "/" + (address.getString("num_address2", "").getBytes(StandardCharsets.UTF_8)));
+                        + (address.getString("city2", "").trim())
+                        + "/" + (address.getString("street2", "").trim()) +
+                        "/" + (address.getString("num_address2", "")));
                 address_amount.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()) {
-                            amount_amount = snapshot.getValue().toString();
-                            SharedPreferences address = getSharedPreferences("address", 0);
-                            snapshot.child("amount");
-                            Toast.makeText(walletpage.this, (Integer) snapshot.getValue(), Toast.LENGTH_LONG).show();
-                            DatabaseReference address_amount = firebaseDatabase.getReference("Address/"
-                                    + (address.getString("city2", "").trim())
-                                    + "/" + address.getString("street2", "").trim() +
-                                    "/" + address.getString("num_address2", "")).getRef();
+                            if (ds.getKey().equals("amount")){
+                            amount_amount = ds.getValue().toString();
+                            sum_cash=Integer.parseInt(amount_amount);
+                            tv_money.setText(amount_amount);}
 
-                            tv_money.setText(snapshot.child(address.getString("city2", "").trim()).child(address.getString("street2", ""))
-                                    .child(address.getString("num_address2", "")).getValue().toString());
-                            tv_money.setText(snapshot.child("amount").getValue().toString());
 
                         }
                     }
@@ -196,7 +133,6 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
                     }
                 });
                 Toast.makeText(walletpage.this, amount_amount, Toast.LENGTH_LONG).show();
-                address_amount.toString();
             }} catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -205,47 +141,6 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
         };
         thread.start();
     }
-
-
-
-
-
-
-
-
-    /*address_amount.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    amount_amount= snapshot.getValue().toString();
-                    SharedPreferences address=getSharedPreferences("address", 0);
-                    snapshot.child("amount");
-                    Toast.makeText(walletpage.this, (Integer) snapshot.getValue(),Toast.LENGTH_LONG).show();
-                    DatabaseReference address_amount=firebaseDatabase.getReference("Address/"
-                            +(address.getString("city2","").trim())
-                            +"/" +address.getString("street2","").trim()+
-                            "/" + address.getString("num_address2","")).getRef();
-
-                    tv_money.setText(snapshot.child(address.getString("city2","").trim()).child(address.getString("street2",""))
-                            .child(address.getString("num_address2","")).getValue().toString());
-                    tv_money.setText(snapshot.child("amount").getValue().toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        Toast.makeText(walletpage.this,amount_amount,Toast.LENGTH_LONG).show();
-        address_amount.toString();*/
-
-
-
-
-
-
-
 
     @Override
     public void onClick(View view) {
@@ -261,7 +156,7 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
                 Address.getString("num_address2","")).child("amount");
 
         databaseReference.setValue(sum_cash);
-
+        add_money_ed.setText("");
 
     }
 
@@ -276,6 +171,7 @@ public class walletpage extends AppCompatActivity implements View.OnClickListene
                 Address.getString("street2","")+"/"+
                 Address.getString("num_address2","")).child("amount");
         databaseReference.setValue(sum_cash);
+        remove_money_ed.setText("");
     }
 }
 

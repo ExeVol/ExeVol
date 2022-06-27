@@ -44,7 +44,6 @@ public class login extends AppCompatActivity implements View.OnClickListener {
         email_login=findViewById(R.id.email_login);
         password_login=findViewById(R.id.password_login);
         login_button=findViewById(R.id.login_button);
-        switch_button=findViewById(R.id.switch_button);
         forgot_pass=findViewById(R.id.forgotpass);
         login_button.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
@@ -152,7 +151,6 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                                 if (type_guest.equals("3") || type_guest.equals("2")) {
                                     address = getSharedPreferences("address", 0);
                                     SharedPreferences.Editor editor = address.edit();
-                                    editor.putBoolean("save1", switch_button.isChecked());
                                     editor.putString("city2",u.getCity2());
                                     editor.putString("street2",u.getStreet2());
                                     editor.putString("num_address2",u.getNum_address2());
@@ -183,7 +181,6 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                                     editor.putString("storage", storage.toString());
                                     editor.putString("key", key.toString());
                                     editor.putString("type_guest", type_guest.toString());
-                                    editor.putBoolean("save1", switch_button.isChecked());
                                     editor.commit();
                                     Intent intent = new Intent(login.this, HomePage.class);
                                     startActivity(intent);

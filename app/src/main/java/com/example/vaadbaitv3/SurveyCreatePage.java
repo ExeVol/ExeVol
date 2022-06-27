@@ -12,15 +12,25 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SurveyCreatePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -35,6 +45,7 @@ public class SurveyCreatePage extends AppCompatActivity implements View.OnClickL
     SharedPreferences.Editor editor;
     StorageReference storageReference;
     ImageButton survey_create;
+    ArrayList<seker> listSeker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +60,12 @@ public class SurveyCreatePage extends AppCompatActivity implements View.OnClickL
         profile.setOnClickListener(this);
         sp = getSharedPreferences("save", 0);
         editor = sp.edit();
+        listSeker = new ArrayList<>();
         TextView name=headerView.findViewById(R.id.menu_name);
         survey_create=findViewById(R.id.create_survey_bt);
         article_ed=findViewById(R.id.enter_article);
         explain_ed=findViewById(R.id.enter_explain);
+        survey_create.setOnClickListener(this);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
         if(storage.equals("0")){
@@ -75,7 +88,56 @@ public class SurveyCreatePage extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+       Thread thread=new Thread() {
+            public void run() { try {synchronized (SurveyCreatePage.this) {
+                SharedPreferences address = getSharedPreferences("address", 0);
+                DatabaseReference address_seker= FirebaseDatabase.getInstance().getReference("Address/"
+                        + (address.getString("city2", "").trim())
+                        + "/" + (address.getString("street2", "").trim()) +
+                        "/" + (address.getString("num_address2", ""))).child("seker");
+                address_seker.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
 
+                    @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+
+                        seker temp = singleSnapshot.getValue(seker.class);
+                        listSeker.add(temp);
+
+                    }
+                        seker s = new seker(article_ed.getText().toString(),explain_ed.getText().toString(),0,0);
+
+                        listSeker.add(s) ;
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("seker", listSeker);
+                        DatabaseReference address_seker= FirebaseDatabase.getInstance().getReference("Address/"
+                                + (address.getString("city2", "").trim())
+                                + "/" + (address.getString("street2", "").trim()) +
+                                "/" + (address.getString("num_address2", "")));
+                        address_seker.updateChildren(map);
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SurveyCreatePage.this, "fail", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                address_seker.get().addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SurveyCreatePage.this, "fail", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }} catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            }
+        };
+        thread.start();
     }
 
     @Override

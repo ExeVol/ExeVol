@@ -13,15 +13,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class ShowSurveyPage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -35,12 +42,17 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
     SharedPreferences.Editor editor;
     StorageReference storageReference;
     ListView survey_list;
-    @Override
+    FirebaseDatabase firebaseDatabase ;
+    DatabaseReference databaseReference;
+    SharedPreferences address;
+   ArrayList<String> listSeker;
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_survey_page);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+        firebaseDatabase = FirebaseDatabase.getInstance();
         setSupportActionBar(toolbar);
         navigationView = findViewById(R.id.navigationView);
         navigationView.inflateMenu(R.menu.side_menu);
@@ -67,21 +79,36 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-
-
+        address = getSharedPreferences("address", 0);
         survey_list=findViewById(R.id.survey_list);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ShowSurveyPage.this, R.layout.custom_list_view,R.id.article);
-        survey_list.setAdapter(arrayAdapter);
+       listSeker = new ArrayList<>();
+       databaseReference = firebaseDatabase.getReference("Address/" +
+               address.getString("city2","").trim()+"/"+
+               address.getString("street2","").trim()+"/"+
+               address.getString("num_address2","")).child("seker");
+       databaseReference.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+           @Override
+           public void onSuccess(DataSnapshot dataSnapshot) {
+               for (DataSnapshot ds: dataSnapshot.getChildren())
+                   listSeker.add(ds.child("nosee").getValue().toString());
+               ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ShowSurveyPage.this, R.layout.listview,R.id.textViewLiad,listSeker);
+               survey_list.setAdapter(arrayAdapter);
+        }
+
+
+    });
+
         survey_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView v = view.findViewById(R.id.article);
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            TextView v = view.findViewById(R.id.article);
+            String subject= (String) adapterView.getItemAtPosition(i).toString();
+            v.setText(subject+" "+"נושא:");
 
 
-
-            }
-        });
-    }
+        }
+    });
+}
 
     @Override
     public void onClick(View view) {

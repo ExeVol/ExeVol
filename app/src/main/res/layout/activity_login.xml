@@ -59,17 +59,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"/>
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="זכור אותי"
-        android:fontFamily="@font/secular_one"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:id="@+id/switch_button"
 
-        />
     <Button
         android:layout_width="130dp"
         android:layout_height="wrap_content"

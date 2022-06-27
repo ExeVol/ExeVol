@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -60,6 +59,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     ArrayList<String> listOfPdf;
     PDFView pdfView;
     String url_bill;
+    String url_address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,39 +75,43 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView v = view.findViewById(R.id.textViewLiad);
-                String bill= (String) adapterView.getItemAtPosition(i);
                 String url_bill= (String) adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(bills.this, bill+" ", Toast.LENGTH_LONG).show();
                 storageReference = FirebaseStorage.getInstance().getReference("documents/" +
                         address.getString("city2","").trim()+"/"+
-                        address.getString("street2","").trim()+
+                        address.getString("street2","").trim()+"/"+
                         address.getString("num_address2",""));
-                storageReference = storageReference.child(bill);
+                storageReference = storageReference.child(url_bill);
                 AlertDialog.Builder alert = new AlertDialog.Builder(bills.this);
 
                 alert.setMessage("חשבונית מוצגת")
                         .setPositiveButton("הצג חשבונית", new DialogInterface.OnClickListener()                 {
 
                             public void onClick(DialogInterface dialog, int which) {
+                                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                                        intent.setDataAndType( uri,"application/pdf");
+                                        try {
+                                            startActivity(Intent.createChooser(intent, "Choose an Application:"));
+                                        } catch (Exception e) {
+                                            Toast.makeText(bills.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
 
-                                pdfView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                                });
+
+                               /* pdfView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                                 pdfView.fromAsset((billsList.getSelectedItem().toString()));
                                 pdfView.loadPages();
-                                alert.setView(pdfView);
+                                alert.setView(pdfView);*/
 
                             }
                         }).setNegativeButton("חזרה", null);
 
                 AlertDialog alert1 = alert.create();
                 alert1.show();
-                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
 
-                    }
-
-        });
             }
         });
         navigationView=findViewById(R.id.navigationView);
@@ -165,11 +169,6 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
 
     }
     ProgressDialog dialog;
-
-
-
-
-
 
 
 
