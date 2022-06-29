@@ -4,22 +4,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 public class Chat extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -58,27 +56,7 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
-
-        if(storage.equals("0")){
-            profile.setImageResource(R.drawable.profile);
-        }
-        else{
-            storageReference = FirebaseStorage.getInstance().getReference("image/" + email.replace('.', ' '));
-            storageReference = storageReference.child(storage);
-            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(Chat.this).load(uri).into(profile);
-                }
-            });
-        }
-
-
-
-
-
         btn_vaad.setVisibility(View.INVISIBLE);
-
         if (sp.getString("type_guest", "").equals("3")||sp.getString("type_guest", "").equals("2"))
            btn_vaad.setVisibility(View.VISIBLE);
     }

@@ -22,14 +22,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.github.barteksc.pdfviewer.PDFView;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -51,15 +49,14 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     NavigationView navigationView;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     StorageReference storageReference;
     ListView billsList;
     SharedPreferences address;
     ImageView btn_upload;
     ArrayList<String> listOfPdf;
-    PDFView pdfView;
-    String url_bill;
-    String url_address;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +126,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
         downLoadBills();
 
         if(storage.equals("0")){
-            profile.setImageResource(R.drawable.profile);
+            profile.setImageResource(R.drawable.update_profile);
         }
         else{
             storageReference = FirebaseStorage.getInstance().getReference("image/" + email.replace('.', ' '));
