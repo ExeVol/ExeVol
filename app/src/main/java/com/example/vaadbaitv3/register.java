@@ -290,7 +290,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
         } else if (btnn3 == view) {
             type_guest = 3;
         }
-        if (view == submit_register) {
+      else if (view == submit_register) {
             if (pass.getText().toString().length() < 6) {
                 pass.setError("הסיסמא צריכה להיות לפחות 6 תווים");
                 pass.setFocusable(true);
@@ -298,28 +298,12 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                 num_address.setError("חובה להקליד מספר בניין");
                 pass.setFocusable(true);
 
-            } else if ((Full_name.toString().contains("@") ||
-                    Full_name.toString().contains("!") ||
-                    Full_name.toString().contains("$") ||
-                    Full_name.toString().contains("%") ||
-                    Full_name.toString().contains("^") ||
-                    Full_name.toString().contains("&") ||
-                    Full_name.toString().contains("*") ||
-                    Full_name.toString().contains(")") ||
-                    Full_name.toString().contains("(") ||
-                    Full_name.toString().contains("_") ||
-                    Full_name.toString().contains("-") ||
-                    Full_name.toString().contains("+") ||
-                    Full_name.toString().contains("="))) {
-                email.setError("לא ניתן להכניס תווים אלה במייל");
-                email.setFocusable(true);
-                 }
-        } else {
-
+            }
+         else {
             createUser();
         }
     }
-                                       }
+                                       }}
 
 
 

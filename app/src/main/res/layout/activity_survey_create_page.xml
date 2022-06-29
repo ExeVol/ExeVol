@@ -96,6 +96,18 @@
             android:id="@+id/create_survey_bt"
             />
 
+        <Button
+            android:id="@+id/back_to1"
+            android:layout_width="173dp"
+            android:layout_height="67dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/light_brown"
+            android:fontFamily="@font/secular_one"
+            android:hint="חזור"
+            android:textColorHint="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView

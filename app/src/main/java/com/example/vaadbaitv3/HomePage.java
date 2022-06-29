@@ -78,7 +78,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if(bt1==view){
-            Intent intent = new Intent(HomePage.this, reports.class);
+            Intent intent = new Intent(HomePage.this, votes.class);
             startActivity(intent);
         }
         if(bt2==view){

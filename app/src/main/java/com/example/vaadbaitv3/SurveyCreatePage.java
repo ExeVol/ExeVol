@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -46,6 +47,7 @@ public class SurveyCreatePage extends AppCompatActivity implements View.OnClickL
     StorageReference storageReference;
     ImageButton survey_create;
     ArrayList<seker> listSeker;
+    Button back_to1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,8 @@ public class SurveyCreatePage extends AppCompatActivity implements View.OnClickL
         article_ed=findViewById(R.id.enter_article);
         explain_ed=findViewById(R.id.enter_explain);
         survey_create.setOnClickListener(this);
+        back_to1=findViewById(R.id.back_to1);
+        back_to1.setOnClickListener(this);
         name.setText("ברוך הבא, "+sp.getString("name",""));
         storage=sp.getString("storage","");
         if(storage.equals("0")){
@@ -88,58 +92,70 @@ public class SurveyCreatePage extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-       Thread thread=new Thread() {
-            public void run() { try {synchronized (SurveyCreatePage.this) {
-                SharedPreferences address = getSharedPreferences("address", 0);
-                DatabaseReference address_seker= FirebaseDatabase.getInstance().getReference("Address/"
-                        + (address.getString("city2", "").trim())
-                        + "/" + (address.getString("street2", "").trim()) +
-                        "/" + (address.getString("num_address2", ""))).child("seker");
-                address_seker.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+       if (back_to1==view){
+           Intent intent = new Intent(SurveyCreatePage.this, votes.class);
+           startActivity(intent);
+           finish();
+       }
+        if (survey_create == view) {
+            Thread thread = new Thread() {
+                public void run() {
+                    try {
+                        synchronized (SurveyCreatePage.this) {
+                            SharedPreferences address = getSharedPreferences("address", 0);
+                            DatabaseReference address_seker = FirebaseDatabase.getInstance().getReference("Address/"
+                                    + (address.getString("city2", "").trim())
+                                    + "/" + (address.getString("street2", "").trim()) +
+                                    "/" + (address.getString("num_address2", ""))).child("seker");
+                            address_seker.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
 
-                    @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                                @Override
+                                public void onSuccess(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
 
-                        seker temp = singleSnapshot.getValue(seker.class);
-                        listSeker.add(temp);
+                                        seker temp = singleSnapshot.getValue(seker.class);
+                                        listSeker.add(temp);
 
+                                    }
+                                    seker s = new seker(article_ed.getText().toString(), explain_ed.getText().toString(), 0, 0);
+
+                                    listSeker.add(s);
+                                    HashMap<String, Object> map = new HashMap<>();
+                                    map.put("seker", listSeker);
+                                    DatabaseReference address_seker = FirebaseDatabase.getInstance().getReference("Address/"
+                                            + (address.getString("city2", "").trim())
+                                            + "/" + (address.getString("street2", "").trim()) +
+                                            "/" + (address.getString("num_address2", "")));
+                                    address_seker.updateChildren(map);
+                                    Intent intent = new Intent(SurveyCreatePage.this,ShowSurveyPage.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(SurveyCreatePage.this, "fail", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+                            address_seker.get().addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SurveyCreatePage.this, "fail", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                        seker s = new seker(article_ed.getText().toString(),explain_ed.getText().toString(),0,0);
 
-                        listSeker.add(s) ;
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("seker", listSeker);
-                        DatabaseReference address_seker= FirebaseDatabase.getInstance().getReference("Address/"
-                                + (address.getString("city2", "").trim())
-                                + "/" + (address.getString("street2", "").trim()) +
-                                "/" + (address.getString("num_address2", "")));
-                        address_seker.updateChildren(map);
                 }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SurveyCreatePage.this, "fail", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                address_seker.get().addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SurveyCreatePage.this, "fail", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-            }} catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            }
-        };
-        thread.start();
+            };
+            thread.start();
+        }
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();

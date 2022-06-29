@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,12 +47,17 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
     DatabaseReference databaseReference;
     SharedPreferences address;
    ArrayList<String> listSeker;
+    int baad_sum=0,neged_sum=0;
+    String explain_alert;
+    Button back_to;
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_survey_page);
         drawerLayout = findViewById(R.id.drawerLayout);
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         setSupportActionBar(toolbar);
         navigationView = findViewById(R.id.navigationView);
@@ -76,12 +82,16 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
                 }
             });
         }
+        back_to=findViewById(R.id.back_to);
+        back_to.setOnClickListener(this);
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
         address = getSharedPreferences("address", 0);
         survey_list=findViewById(R.id.survey_list);
        listSeker = new ArrayList<>();
+
+
        databaseReference = firebaseDatabase.getReference("Address/" +
                address.getString("city2","").trim()+"/"+
                address.getString("street2","").trim()+"/"+
@@ -89,22 +99,65 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
        databaseReference.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
            @Override
            public void onSuccess(DataSnapshot dataSnapshot) {
-               for (DataSnapshot ds: dataSnapshot.getChildren())
+               for (DataSnapshot ds: dataSnapshot.getChildren()) {
                    listSeker.add(ds.child("nosee").getValue().toString());
+                   baad_sum= Integer.parseInt(ds.child("baad").getValue().toString());
+                   neged_sum= Integer.parseInt((ds.child("neged").getValue().toString()));
+                   explain_alert=ds.child("explain").getValue().toString();
+               }
                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(ShowSurveyPage.this, R.layout.listview,R.id.textViewLiad,listSeker);
                survey_list.setAdapter(arrayAdapter);
+
         }
 
 
     });
-
         survey_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            TextView v = view.findViewById(R.id.article);
             String subject= (String) adapterView.getItemAtPosition(i).toString();
-            v.setText(subject+" "+"נושא:");
+            AlertDialog.Builder alert = new AlertDialog.Builder(ShowSurveyPage.this);
+            alert.setMessage("נושא הסקר :" +"   "+subject+
+                     "       "+" פירוט:"+"           "+explain_alert+
+                    "                                         "+"בעד:"+baad_sum+","+" נגד: "+neged_sum)
 
+
+                    .setPositiveButton("בעד", new DialogInterface.OnClickListener()                 {
+                        public void onClick(DialogInterface dialog, int which) {
+                            baad_sum++;
+                            databaseReference.child(String.valueOf(i)).child("baad").setValue(baad_sum);
+
+                        }
+                    }).setNegativeButton("נגד", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialogInterface, int j) {
+                    neged_sum++;
+                    databaseReference.child(String.valueOf(i)).child("neged").setValue(neged_sum);
+                }
+            }).setNeutralButton("חזור", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    alert.setOnCancelListener(new DialogInterface.OnCancelListener()
+                    {
+                        @Override
+                        public void onCancel(DialogInterface dialog)
+                        {
+
+
+                            dialog.dismiss();
+
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+            AlertDialog alert1 = alert.create();
+            alert1.show();
 
         }
     });
@@ -112,7 +165,11 @@ public class ShowSurveyPage extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-
+        if (back_to==view){
+            Intent intent = new Intent(ShowSurveyPage.this, votes.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
