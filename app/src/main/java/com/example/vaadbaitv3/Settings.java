@@ -62,7 +62,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         profile=headerView.findViewById(R.id.profile_header);
         profile_update=findViewById(R.id.profile_update);
         profile_update.setOnClickListener(this);
-        save_pic=findViewById(R.id.save_pic);
         sp = getSharedPreferences("save", 0);
         Address=getSharedPreferences("address",0);
         editor = sp.edit();
