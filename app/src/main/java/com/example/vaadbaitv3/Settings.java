@@ -22,15 +22,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private EndDrawerToggle drawerToggle ;
-    String storage;
+
     ImageView profile,profile_update;
     Uri uri;
     String picname,email;
@@ -42,6 +44,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     SharedPreferences Address;
     SharedPreferences.Editor editor;
     StorageReference storageReference;
+    ImageButton save_pic;
+    String current_url;
+    DatabaseReference databaseReference;
+    FirebaseDatabase firebaseDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +62,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         profile=headerView.findViewById(R.id.profile_header);
         profile_update=findViewById(R.id.profile_update);
         profile_update.setOnClickListener(this);
-        profile.setOnClickListener(this);
+        save_pic=findViewById(R.id.save_pic);
         sp = getSharedPreferences("save", 0);
         Address=getSharedPreferences("address",0);
         editor = sp.edit();
@@ -65,20 +72,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         logout_button.setOnClickListener(this);
         TextView name=headerView.findViewById(R.id.menu_name);
         name.setText("ברוך הבא, "+sp.getString("name",""));
-        storage=sp.getString("storage","");
-        if(storage.equals("0")){
-            profile_update.setImageResource(R.drawable.profile);
-        }
-        else{
-            storageReference = FirebaseStorage.getInstance().getReference("image/" + email.replace('.', ' '));
-            storageReference = storageReference.child(storage);
-            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(Settings.this).load(uri).into(profile);
-                }
-            });
-        }
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new EndDrawerToggle(drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -86,7 +79,13 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         tv_address.setText("כתובת הדייר:"+" "+Address.getString("city2","").trim()+
                 "-"+Address.getString("street2","").trim()+
                 "-"+Address.getString("num_address2","").trim());
+        email=sp.getString("email","");
+
+
+
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -96,14 +95,16 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
         if(profile_update==view){
             Intent intent = new Intent();
             intent.setType("image/*");
-            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 0);
         }
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null && requestCode == 0) {
+
             uri = data.getData();
             profile.setImageURI(uri);
             picname = System.currentTimeMillis() + "." + getFileExtension(uri);
@@ -112,6 +113,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
             storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                profile_update.setImageURI(uri);
+                current_url=storageReference.child(String.valueOf(uri)).getDownloadUrl().toString();
+                databaseReference.child(email).child("profile_name").setValue(picname);
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -201,6 +205,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void logout() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
         startActivity(new Intent(this, login.class));
         finish();
     }

@@ -176,7 +176,8 @@
             android:drawableLeft="@drawable/ic_phone"
             android:textAlignment="center"
             android:id="@+id/phone"
-            android:maxLength="10"/>
+            android:maxLength="10"
+            />
 
         <TextView
             android:id="@+id/name3"

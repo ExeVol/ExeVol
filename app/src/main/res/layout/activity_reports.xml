@@ -31,29 +31,41 @@
             android:layout_height="124dp"
             android:layout_gravity="center"
             android:src="@drawable/report_text" />
-
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="הכנס נושא:"
+            android:id="@+id/enter_article_report"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="הכנס הסבר:"
+            android:id="@+id/enter_explain_report"/>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/camera"
+            android:id="@+id/upload_camera"/>
         <ImageButton
             android:id="@+id/upload_reports"
             android:layout_width="200dp"
             android:layout_height="96dp"
             android:layout_gravity="center"
             android:background="@drawable/upload_report" />
-        <ImageButton
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:background="@drawable/delete_report"
-            android:layout_gravity="center"/>
 
         <ImageView
             android:layout_width="250dp"
             android:layout_height="65dp"
             android:layout_gravity="center"
-            android:src="@drawable/tv_reports" />
+            android:src="@drawable/tv_reports"
+            />
 
         <ListView
             android:id="@+id/list_of_reports"
             android:layout_width="wrap_content"
-            android:layout_height="289dp"></ListView>
+            android:layout_height="289dp"
+            ></ListView>
     </LinearLayout>
     </ScrollView>
     <com.google.android.material.navigation.NavigationView

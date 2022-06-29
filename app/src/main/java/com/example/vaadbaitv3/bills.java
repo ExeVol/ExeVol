@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -191,11 +192,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
                     +address.getString("street2","").trim()+"/"
                     + address.getString("num_address2","").trim());
             final String messagePushID = timestamp;
-            Toast.makeText(bills.this, imageuri.toString(), Toast.LENGTH_SHORT).show();
-
             // Here we are uploading the pdf in firebase storage with the name of current time
             final StorageReference filepath = storageReference.child(imageuri.getLastPathSegment() + "." + "pdf");
-            Toast.makeText(bills.this, filepath.getName(), Toast.LENGTH_SHORT).show();
             filepath.putFile(imageuri).continueWithTask(new Continuation() {
                 @Override
                 public Object then(@NonNull Task task) throws Exception {
@@ -338,6 +336,8 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     }
 
     private void logout() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
         startActivity(new Intent(this, login.class));
         finish();
     }

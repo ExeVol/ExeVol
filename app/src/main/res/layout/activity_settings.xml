@@ -61,7 +61,8 @@
             android:layout_width="252dp"
             android:layout_height="125dp"
             android:layout_gravity="center"
-            android:background="@drawable/update_profile" />
+            android:background="@drawable/update_profile"
+            android:id="@+id/save_pic"/>
 
         <ImageButton
             android:layout_width="236dp"

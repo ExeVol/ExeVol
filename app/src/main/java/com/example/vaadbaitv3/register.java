@@ -75,7 +75,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         myref = firebaseDatabase.getReference("Address/");
-        myref1 = firebaseDatabase.getReference("Address/");
+        myref1 = firebaseDatabase.getReference("Users/");
 
     }
 
@@ -227,14 +227,8 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
                                                                                                                                                                              }
                                                                                                                                                                          });
-
-
-
-                                                                                                                                                                         /*  .child(email.getText().toString().replace("."," "));*/
-                                                                                                                                                                         /* myref.setValue(email.getText().toString().replace("."," "));*/
                                                                                                                                                                      }
                                                                                                                                                                  } catch (Exception e) {
-                                                                                                                                                                     Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                                                                                                                                                  }
                                                                                                                                                                  p.dismiss();
                                                                                                                                                                  Toast.makeText(register.this, "הרשמה בוצעה בהצלחה", Toast.LENGTH_LONG).show();
@@ -294,10 +288,39 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
             if (pass.getText().toString().length() < 6) {
                 pass.setError("הסיסמא צריכה להיות לפחות 6 תווים");
                 pass.setFocusable(true);
-            } else if (num_address == null) {
+            } else if (num_address.getText().toString() == null) {
                 num_address.setError("חובה להקליד מספר בניין");
-                pass.setFocusable(true);
-
+                num_address.setFocusable(true);
+            }
+            else if(email.getText().toString()==null){
+                Toast.makeText(register.this, "חובה להכניס מייל", Toast.LENGTH_SHORT).show();
+            }
+            else if (Full_name.getText().toString()==null){
+                Toast.makeText(register.this, "חובה להכניס שם מלא", Toast.LENGTH_SHORT).show();
+            }
+            else if(!email.getText().toString().contains("@gmail.com")){
+                Toast.makeText(register.this, "  חובה להכניס מייל תיקני", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().length()<10){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון מלא ", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().contains(",")){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון תיקני ", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().contains("(")){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון תיקני ", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().contains(")")){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון תיקני ", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().contains("-")){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון תיקני ", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().contains("_")){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון תיקני ", Toast.LENGTH_SHORT).show();
+            }
+            else if(phone.getText().toString().contains(".")){
+                Toast.makeText(register.this, "חובה להכניס מס טלפון מלא ", Toast.LENGTH_SHORT).show();
             }
          else {
             createUser();

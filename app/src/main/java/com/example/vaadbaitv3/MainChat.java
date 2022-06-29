@@ -256,6 +256,8 @@ public class MainChat extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void logout() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
         startActivity(new Intent(this, login.class));
         finish();
     }

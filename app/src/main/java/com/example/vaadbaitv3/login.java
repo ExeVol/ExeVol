@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class login extends AppCompatActivity implements View.OnClickListener {
     EditText email_login,password_login;
     Button login_button,forgot_pass;
-    String email, password, key,name,storage,type_guest;
+    String email, password, key,name="",storage,type_guest;
     Thread thread;
     Switch switch_button;
     FirebaseAuth Auth = FirebaseAuth.getInstance();
@@ -130,7 +130,8 @@ public class login extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if(view==login_button){
-            password=password_login.getText().toString();
+            if (email_login.getText().toString().contains("@gmail.com"))
+            {password=password_login.getText().toString();
             email=email_login.getText().toString();
             databaseReference=firebaseDatabase.getReference("Users");
             thread=new Thread() {
@@ -143,7 +144,6 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                         for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                           if (singleSnapshot.getKey().equals(email.replace(".", " "))){
                            DefaultUser u = singleSnapshot.getValue(DefaultUser.class);
-                         //   if((singleSnapshot.child("email").getValue()!=null&&singleSnapshot.child("email").getValue().toString().equals(email))){
                                 name=u.getName();
                                 key=u.getKey();
                                 storage=u.getStorage();
@@ -206,8 +206,10 @@ public class login extends AppCompatActivity implements View.OnClickListener {
             };
 
 
-            thread.start();
-
+            thread.start();}
+            else{
+                Toast.makeText(login.this, "שים לב שאתה מכניס כתובת מייל מלאה!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
