@@ -175,6 +175,7 @@ public class VaadChat extends AppCompatActivity implements View.OnClickListener,
     public void onClick(View view) {
             if (view==send1){
             createMSG();
+            ed_message.setText("");
             }
     }
 

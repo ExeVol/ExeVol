@@ -180,6 +180,7 @@ public class MainChat extends AppCompatActivity implements View.OnClickListener,
     public void onClick(View view) {
         if (view==send_normal){
             createMSG();
+            ed_message_normal.setText("");
         }
     }
 
