@@ -145,31 +145,6 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
     }
 
     public void createUser() {
-            myref1.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    try {
-                        for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
-                            if (singleSnapshot.child("city2").getValue().toString().equals(cityy.getSelectedItem().toString()) &&
-                                    singleSnapshot.child("street2").getValue().toString().equals(streett.getSelectedItem().toString()) &&
-                                    singleSnapshot.child("num_address2").getValue().toString().equals(num_address.getText().toString())) {
-                                if (singleSnapshot.child("type_guest").getValue().toString().equals(type_guest)) {
-                                    flag = false;
-                                    throw new Exception("קיים בכתובת זו מנהל וועד");
-
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
             p = new ProgressDialog(this);
             p.setMessage("בתהליך רישום....");
             p.show();
@@ -182,7 +157,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         try {
-                                            if (!flag) {
+
 
                                                                                                                                                                          myref = firebaseDatabase.getReference("Users").child(email.getText().toString().replace(".", " "));
 
@@ -219,7 +194,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
                                                                                                                                                                              }
                                                                                                                                                                          });
-                                                                                                                                                                     }
+
                                                                                                                                                                  } catch (Exception e) {
                                                                                                                                                                  }
                                                                                                                                                                  p.dismiss();
