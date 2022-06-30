@@ -35,12 +35,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="הכנס נושא:"
-            android:id="@+id/enter_article_report"/>
+            android:id="@+id/enter_article_report"
+            android:maxLength="20"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="הכנס הסבר:"
-            android:id="@+id/enter_explain_report"/>
+            android:id="@+id/enter_explain_report"
+            android:maxLength="50"/>
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"

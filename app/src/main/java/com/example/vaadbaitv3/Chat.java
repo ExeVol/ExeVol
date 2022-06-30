@@ -18,7 +18,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.StorageReference;
 
 public class Chat extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -31,7 +30,6 @@ public class Chat extends AppCompatActivity implements View.OnClickListener, Nav
     NavigationView navigationView;
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

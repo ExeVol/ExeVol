@@ -145,10 +145,6 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
     }
 
     public void createUser() {
-
-        // if (isVaildate()) {
-
-
             myref1.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -187,10 +183,7 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
                                     if (task.isSuccessful()) {
                                         try {
                                             if (!flag) {
-                               /* myref = firebaseDatabase.getReference("Address/"+cityy.getSelectedItem().toString()+"/"+
-                                        streett.getSelectedItem().toString()+"/"+
-                                        num_address.getText().toString()+"/Users").push();
-*/
+
                                                                                                                                                                          myref = firebaseDatabase.getReference("Users").child(email.getText().toString().replace(".", " "));
 
                                                                                                                                                                          DefaultUser u = new DefaultUser(Full_name.getText().toString()
@@ -214,7 +207,6 @@ public class register extends AppCompatActivity implements   AdapterView.OnItemS
 
                                                                                                                                                                                  }
                                                                                                                                                                                  usersInAddress.add(email.getText().toString().replace(".", " "));
-                                                                                                                                                                                 Toast.makeText(register.this, ""+usersInAddress.size(), Toast.LENGTH_LONG).show();
                                                                                                                                                                                  myref = firebaseDatabase.getReference("Address").child(cityy.getSelectedItem().toString().trim()).child(
                                                                                                                                                                                          streett.getSelectedItem().toString()).child( num_address.getText().toString());
                                                                                                                                                                                  HashMap<String, Object> map = new HashMap<>();

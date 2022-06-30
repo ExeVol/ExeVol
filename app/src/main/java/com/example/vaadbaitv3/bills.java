@@ -42,8 +42,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
     private EndDrawerToggle drawerToggle ;
     String storage;
     ImageView profile;
-    Uri uri;
-    String picname,email;
+    String email;
     ImageView upload;
     Uri imageuri = null;
     androidx.appcompat.widget.Toolbar toolbar;
@@ -99,10 +98,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
 
                                 });
 
-                               /* pdfView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                                pdfView.fromAsset((billsList.getSelectedItem().toString()));
-                                pdfView.loadPages();
-                                alert.setView(pdfView);*/
+
 
                             }
                         }).setNegativeButton("חזרה", null);
@@ -280,9 +276,7 @@ public class bills extends AppCompatActivity implements View.OnClickListener, Na
             finish();
         }
         else if(id==R.id.disconnect){
-            Intent intent = new Intent(bills.this, login.class);
-            startActivity(intent);
-            finish();
+            showPopup();
         }
         else if(id==R.id.bills_building){
             Intent intent = new Intent(bills.this, bills.class);
